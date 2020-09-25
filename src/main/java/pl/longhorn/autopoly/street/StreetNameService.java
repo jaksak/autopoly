@@ -27,7 +27,8 @@ public class StreetNameService {
 
     @SneakyThrows
     public String getRandom() {
-        var streetUrl = getClass().getClassLoader().getResource("streets.txt");
+        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+        var streetUrl = classloader.getResource("streets.txt");
         assert streetUrl != null;
         var streetFile = new File(streetUrl.getFile());
         return getRandomLineFromFile(streetFile);

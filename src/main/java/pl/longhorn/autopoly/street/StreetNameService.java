@@ -2,6 +2,7 @@ package pl.longhorn.autopoly.street;
 
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,10 +28,7 @@ public class StreetNameService {
 
     @SneakyThrows
     public String getRandom() {
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        var streetUrl = classloader.getResource("/streets.txt");
-        assert streetUrl != null;
-        var streetFile = new File(streetUrl.getFile());
+        var streetFile = ResourceUtils.getFile("classpath:streets.txt");
         return getRandomLineFromFile(streetFile);
     }
 }

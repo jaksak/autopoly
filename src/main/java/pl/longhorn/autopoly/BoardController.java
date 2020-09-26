@@ -13,7 +13,7 @@ import pl.longhorn.autopoly.board.model.view.field.StartFieldView;
 import pl.longhorn.autopoly.board.model.view.log.PlayerBuyLogView;
 import pl.longhorn.autopoly.board.model.view.log.PlayerMoveLogView;
 import pl.longhorn.autopoly.board.model.view.player.PlayerDetails;
-import pl.longhorn.autopoly.street.StreetNameService;
+import pl.longhorn.autopoly.street.RandomStreetNameQuery;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-    private final StreetNameService streetNameService;
+    private final RandomStreetNameQuery randomStreetNameQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam(required = false) String logsAfter) {
@@ -57,13 +57,13 @@ public class BoardController {
         return BoardInitialConfigView.builder()
                 .fields(List.of(
                         new StartFieldView("0"),
-                        new ParcelFieldView("1", streetNameService.getRandom(), 500),
-                        new ParcelFieldView("2", streetNameService.getRandom(), 560),
-                        new ParcelFieldView("3", streetNameService.getRandom(), 550),
-                        new ParcelFieldView("4", streetNameService.getRandom(), 540),
-                        new ParcelFieldView("5", streetNameService.getRandom(), 530),
-                        new ParcelFieldView("6", streetNameService.getRandom(), 520),
-                        new ParcelFieldView("7", streetNameService.getRandom(), 510)
+                        new ParcelFieldView("1", randomStreetNameQuery.getRandom(), 500),
+                        new ParcelFieldView("2", randomStreetNameQuery.getRandom(), 560),
+                        new ParcelFieldView("3", randomStreetNameQuery.getRandom(), 550),
+                        new ParcelFieldView("4", randomStreetNameQuery.getRandom(), 540),
+                        new ParcelFieldView("5", randomStreetNameQuery.getRandom(), 530),
+                        new ParcelFieldView("6", randomStreetNameQuery.getRandom(), 520),
+                        new ParcelFieldView("7", randomStreetNameQuery.getRandom(), 510)
 
                 ))
                 .players(List.of(

@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.longhorn.autopoly.board.BoardService;
 import pl.longhorn.autopoly.board.model.view.BoardInitialConfigView;
 import pl.longhorn.autopoly.board.model.view.BoardStateView;
-import pl.longhorn.autopoly.board.model.view.field.ParcelFieldView;
-import pl.longhorn.autopoly.board.model.view.field.StartFieldView;
 import pl.longhorn.autopoly.board.model.view.log.PlayerBuyLogView;
 import pl.longhorn.autopoly.board.model.view.log.PlayerMoveLogView;
 import pl.longhorn.autopoly.board.model.view.player.PlayerDetails;
-import pl.longhorn.autopoly.street.RandomStreetNameQuery;
+import pl.longhorn.autopoly.field.AutopolyField;
+import pl.longhorn.autopoly.field.DistrictDetailsCommand;
+import pl.longhorn.autopoly.field.DistrictDetailsQuery;
+import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("board/")
@@ -24,6 +26,8 @@ public class BoardController {
 
     private final BoardService boardService;
     private final RandomStreetNameQuery randomStreetNameQuery;
+    private final DistrictDetailsQuery districtDetailsQuery;
+    private final DistrictDetailsCommand districtDetailsCommand;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam(required = false) String logsAfter) {
@@ -54,18 +58,14 @@ public class BoardController {
     @GetMapping("config")
     public BoardInitialConfigView getInitConfig() {
         var board = boardService.getBoard();
+        var districtDetails = districtDetailsQuery.get();
+        if (districtDetails == null) {
+            districtDetails = districtDetailsCommand.prepareFields();
+        }
         return BoardInitialConfigView.builder()
-                .fields(List.of(
-                        new StartFieldView("0"),
-                        new ParcelFieldView("1", randomStreetNameQuery.getRandom(), 500),
-                        new ParcelFieldView("2", randomStreetNameQuery.getRandom(), 560),
-                        new ParcelFieldView("3", randomStreetNameQuery.getRandom(), 550),
-                        new ParcelFieldView("4", randomStreetNameQuery.getRandom(), 540),
-                        new ParcelFieldView("5", randomStreetNameQuery.getRandom(), 530),
-                        new ParcelFieldView("6", randomStreetNameQuery.getRandom(), 520),
-                        new ParcelFieldView("7", randomStreetNameQuery.getRandom(), 510)
-
-                ))
+                .fields(
+                        districtDetails.getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
+                )
                 .players(List.of(
                         PlayerDetails.builder()
                                 .id("0")

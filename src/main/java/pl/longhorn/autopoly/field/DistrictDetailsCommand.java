@@ -26,8 +26,8 @@ public class DistrictDetailsCommand {
 
         SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer);
         EmptyFieldCommand emptyFieldCommand = new EmptyFieldCommand(idFactory);
-        // 1
 
+        // 1
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());

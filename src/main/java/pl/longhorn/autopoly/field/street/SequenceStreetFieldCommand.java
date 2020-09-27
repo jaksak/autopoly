@@ -25,7 +25,6 @@ public class SequenceStreetFieldCommand {
         return new StreetField(id, name, districtId, currentPrice, housePrice);
     }
 
-    // TODO: test!
     private int calculateHousePrice(String districtId) {
         if (latestDistrictId.equals(districtId)) {
             return latestHousePrice;

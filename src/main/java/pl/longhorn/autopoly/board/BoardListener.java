@@ -17,7 +17,6 @@ class BoardListener {
     private final ClearDistrictDetailsCommand clearDistrictDetailsCommand;
     private final ClearPlayerCommand clearPlayerCommand;
 
-    // TODO: use it!
     public void afterBoardCreate() {
         var district = districtDetailsCommand.prepareFields();
         for (int i = 0; i < 4; i++) {

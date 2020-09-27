@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PlayerBuyLogView implements BoardLogView {
+public class PlayerBuyLogContent implements BoardLogContent {
 
     private final String id;
     private final String playerId;

@@ -10,13 +10,13 @@ import pl.longhorn.autopoly.api.BoardStateView;
 import pl.longhorn.autopoly.board.BoardQuery;
 import pl.longhorn.autopoly.field.AutopolyField;
 import pl.longhorn.autopoly.field.DistrictDetailsQuery;
-import pl.longhorn.autopoly.log.PlayerBuyLogView;
-import pl.longhorn.autopoly.log.PlayerMoveLogView;
+import pl.longhorn.autopoly.log.BoardLog;
+import pl.longhorn.autopoly.log.BoardLogAfterIdQuery;
+import pl.longhorn.autopoly.log.BoardLogQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayersQuery;
 import pl.longhorn.autopoly.state.CheckStateCommand;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,18 +28,16 @@ public class BoardController {
     private final PlayersQuery playersQuery;
     private final CheckStateCommand checkStateCommand;
     private final BoardQuery boardQuery;
+    private final BoardLogQuery boardLogQuery;
+    private final BoardLogAfterIdQuery boardLogAfterIdQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
-        System.out.println(boardId + " " + logsAfter); // TODO: use it!
         checkStateCommand.checkState();
+        var logs = logsAfter == null ? boardLogQuery.getByBoardId(boardId) : boardLogAfterIdQuery.getLogByBoardIdAndAfter(boardId, logsAfter);
         return BoardStateView.builder()
-                .logs(List.of(
-                        new PlayerMoveLogView("A", "0", "1"),
-                        new PlayerBuyLogView("B", "0", "1")
-                ))
-                .players(
-                        playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
+                .logs(logs.stream().map(BoardLog::toView).collect(Collectors.toList()))
+                .players(playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
                 .build();
     }
 
@@ -52,12 +50,8 @@ public class BoardController {
         } else {
             return BoardInitialConfigView.builder()
                     .boardId(board.getId())
-                    .fields(
-                            districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
-                    )
-                    .players(
-                            playersQuery.get().stream().map(Player::toView).collect(Collectors.toList())
-                    )
+                    .fields(districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList()))
+                    .players(playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
                     .build();
         }
     }

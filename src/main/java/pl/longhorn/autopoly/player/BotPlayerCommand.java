@@ -12,13 +12,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BotPlayerCommand {
 
+    private static final int INIT_MONEY_AMOUNT = 200;
     private final IdFactory idFactory;
     private final BotPlayerType botPlayerType = new BotPlayerType();
     private final PlayerRepository repository;
     private final NickQuery nickQuery;
 
     public Player create(String startFieldId) {
-        var player = new Player(idFactory.generate(), nickQuery.getRandom(), 0, startFieldId, List.of(), botPlayerType);
+        var player = new Player(idFactory.generate(), nickQuery.getRandom(), INIT_MONEY_AMOUNT, startFieldId, List.of(), botPlayerType);
         repository.save(player);
         return player;
     }

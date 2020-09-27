@@ -1,9 +1,13 @@
 package pl.longhorn.autopoly.log;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.io.Serializable;
 
-public interface BoardLogView extends Serializable {
-    String getId();
-
-    BoardLogType getType();
+@Getter
+@RequiredArgsConstructor
+public class BoardLogView implements Serializable {
+    private final String id;
+    private final BoardLogContent content;
 }

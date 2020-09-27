@@ -15,9 +15,11 @@ public class CheckStateCommand {
     private final BoardQuery boardQuery;
     private final BoardCommand boardCommand;
 
-    public void checkState() {
+    public synchronized void checkState() {
+        // TODO: checking date!
         for (int i = 0; i < MAX_ACTION_AMOUNT; i++) {
             var param = getParam();
+
         }
     }
 

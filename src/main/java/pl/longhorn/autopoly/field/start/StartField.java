@@ -8,7 +8,7 @@ import pl.longhorn.autopoly.field.AutopolyFieldDetailsView;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StartField implements AutopolyField {
+class StartField implements AutopolyField {
 
     private final String id;
 

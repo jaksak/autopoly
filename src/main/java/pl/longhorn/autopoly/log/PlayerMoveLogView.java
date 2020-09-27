@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.board.model.view.log;
+package pl.longhorn.autopoly.log;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

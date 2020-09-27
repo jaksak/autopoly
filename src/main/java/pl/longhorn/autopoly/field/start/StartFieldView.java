@@ -7,7 +7,7 @@ import pl.longhorn.autopoly.field.FieldTypeView;
 
 @Getter
 @AllArgsConstructor
-public class StartFieldView implements AutopolyFieldDetailsView {
+class StartFieldView implements AutopolyFieldDetailsView {
 
     private final FieldTypeView type = FieldTypeView.START;
     private final String id;

@@ -7,9 +7,11 @@ import pl.longhorn.autopoly.field.FieldTypeView;
 
 @Getter
 @AllArgsConstructor
-public class StreetFieldView implements AutopolyFieldDetailsView {
+class StreetFieldView implements AutopolyFieldDetailsView {
     private final FieldTypeView type = FieldTypeView.PARCEL;
     private final String id;
+    private final String districtId;
     private final String name;
     private final int price;
+    private final int housePrice;
 }

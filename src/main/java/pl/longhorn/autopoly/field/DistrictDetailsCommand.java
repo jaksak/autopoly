@@ -11,7 +11,7 @@ import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;
 
 @Service
 @RequiredArgsConstructor
-public class DistrictDetailsCommand {
+class DistrictDetailsCommand {
 
     private final DistrictDetailsRepository districtDetailsRepository;
     private final IdFactory idFactory;

@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class DistrictDetailsQuery {
+public class ClearDistrictDetailsCommand {
 
     private final DistrictDetailsRepository districtDetailsRepository;
 
-    public DistrictDetails get() {
-        return districtDetailsRepository.get();
+    public void delete() {
+        districtDetailsRepository.clear();
     }
 }

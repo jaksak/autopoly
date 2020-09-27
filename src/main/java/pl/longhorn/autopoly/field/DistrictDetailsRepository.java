@@ -3,7 +3,7 @@ package pl.longhorn.autopoly.field;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DistrictDetailsRepository {
+class DistrictDetailsRepository {
 
     private final Object monitor = new Object();
 
@@ -17,5 +17,11 @@ public class DistrictDetailsRepository {
 
     public DistrictDetails get() {
         return districtDetails;
+    }
+
+    public void clear() {
+        synchronized (monitor) {
+            districtDetails = null;
+        }
     }
 }

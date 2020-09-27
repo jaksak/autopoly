@@ -22,7 +22,7 @@ public class SequenceStreetFieldCommand {
         int housePrice = calculateHousePrice(districtId);
         latestHousePrice = housePrice;
         latestDistrictId = districtId;
-        return new StreetField(id, name, currentPrice, housePrice);
+        return new StreetField(id, name, districtId, currentPrice, housePrice);
     }
 
     // TODO: test!

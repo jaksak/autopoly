@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Builder
 public class BoardInitialConfigView implements Serializable {
+    private final String boardId;
     private final List<AutopolyFieldDetailsView> fields;
     private final List<PlayerView> players;
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.longhorn.autopoly.api.BoardInitialConfigView;
 import pl.longhorn.autopoly.api.BoardStateView;
+import pl.longhorn.autopoly.board.BoardQuery;
 import pl.longhorn.autopoly.field.AutopolyField;
 import pl.longhorn.autopoly.field.DistrictDetailsQuery;
 import pl.longhorn.autopoly.log.PlayerBuyLogView;
@@ -26,6 +27,7 @@ public class BoardController {
     private final DistrictDetailsQuery districtDetailsQuery;
     private final PlayersQuery playersQuery;
     private final CheckStateCommand checkStateCommand;
+    private final BoardQuery boardQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
@@ -44,13 +46,19 @@ public class BoardController {
     @GetMapping("config")
     public BoardInitialConfigView getInitConfig() {
         checkStateCommand.checkState();
-        return BoardInitialConfigView.builder()
-                .fields(
-                        districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
-                )
-                .players(
-                        playersQuery.get().stream().map(Player::toView).collect(Collectors.toList())
-                )
-                .build();
+        var board = boardQuery.get();
+        if (board == null) {
+            return null;
+        } else {
+            return BoardInitialConfigView.builder()
+                    .boardId(board.getId())
+                    .fields(
+                            districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
+                    )
+                    .players(
+                            playersQuery.get().stream().map(Player::toView).collect(Collectors.toList())
+                    )
+                    .build();
+        }
     }
 }

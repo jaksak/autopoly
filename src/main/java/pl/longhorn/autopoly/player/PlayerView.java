@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Getter
 public class PlayerView implements Serializable {
     private final String id;
-    private final String name;
+    private final String nick;
     private final int moneyAmount;
     private final String position;
 }

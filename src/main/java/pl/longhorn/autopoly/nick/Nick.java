@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.street.name;
+package pl.longhorn.autopoly.nick;
 
 import lombok.Getter;
 
@@ -8,11 +8,11 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-class StreetName {
+class Nick {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
     private String id;
 
-    private String name;
+    private String nickValue;
 }

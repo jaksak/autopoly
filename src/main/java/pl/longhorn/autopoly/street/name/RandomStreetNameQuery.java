@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RandomStreetNameQuery {
 
-    private final StreetNamesRepository streetNamesRepository;
+    private final StreetNameRepository streetNameRepository;
 
     @SneakyThrows
     public String getRandom() {
-        return streetNamesRepository.getRandom().getName();
+        return streetNameRepository.getRandom().getName();
     }
 }

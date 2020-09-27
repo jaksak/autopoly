@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.longhorn.autopoly.api.BoardInitialConfigView;
 import pl.longhorn.autopoly.api.BoardStateView;
 import pl.longhorn.autopoly.field.AutopolyField;
-import pl.longhorn.autopoly.field.DistrictDetailsAccessor;
+import pl.longhorn.autopoly.field.DistrictDetailsQuery;
 import pl.longhorn.autopoly.log.PlayerBuyLogView;
 import pl.longhorn.autopoly.log.PlayerMoveLogView;
-import pl.longhorn.autopoly.player.PlayerView;
+import pl.longhorn.autopoly.player.Player;
+import pl.longhorn.autopoly.player.PlayersQuery;
+import pl.longhorn.autopoly.state.CheckStateCommand;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,55 +23,34 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardController {
 
-    private final DistrictDetailsAccessor districtDetailsAccessor;
+    private final DistrictDetailsQuery districtDetailsQuery;
+    private final PlayersQuery playersQuery;
+    private final CheckStateCommand checkStateCommand;
 
     @GetMapping("state")
-    public BoardStateView getBoardState(@RequestParam(required = false) String logsAfter) {
-//        boardService.checkState();
-//        var board = boardService.getBoard();
+    public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
+        System.out.println(boardId + " " + logsAfter); // TODO: use it!
+        checkStateCommand.checkState();
         return BoardStateView.builder()
                 .logs(List.of(
                         new PlayerMoveLogView("A", "0", "1"),
                         new PlayerBuyLogView("B", "0", "1")
                 ))
-                .players(List.of(
-                        PlayerView.builder()
-                                .id("0")
-                                .name("Jankow")
-                                .moneyAmount(5000)
-                                .position("1")
-                                .build(),
-                        PlayerView.builder()
-                                .id("1")
-                                .name("Juliusz")
-                                .moneyAmount(3699)
-                                .position("1")
-                                .build()
-                ))
+                .players(
+                        playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
                 .build();
     }
 
     @GetMapping("config")
     public BoardInitialConfigView getInitConfig() {
-//        var board = boardService.getBoard();
+        checkStateCommand.checkState();
         return BoardInitialConfigView.builder()
                 .fields(
-                        districtDetailsAccessor.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
+                        districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList())
                 )
-                .players(List.of(
-                        PlayerView.builder()
-                                .id("0")
-                                .name("Jankow")
-                                .moneyAmount(5000)
-                                .position("0")
-                                .build(),
-                        PlayerView.builder()
-                                .id("1")
-                                .name("Juliusz")
-                                .moneyAmount(3699)
-                                .position("1")
-                                .build()
-                ))
+                .players(
+                        playersQuery.get().stream().map(Player::toView).collect(Collectors.toList())
+                )
                 .build();
     }
 }

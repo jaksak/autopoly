@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class DistrictDetailsQuery {
+public class DistrictDetailsQuery {
 
     private final DistrictDetailsRepository districtDetailsRepository;
 

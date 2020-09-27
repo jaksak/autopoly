@@ -1,16 +1,30 @@
 package pl.longhorn.autopoly.player;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import pl.longhorn.autopoly.player.type.PlayerType;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public abstract class Player {
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+public class Player {
     private final String id;
-    private final String name;
+    private final String nick;
     private final int moneyAmount;
     private final String currentFieldId;
     private final List<String> ownedFields;
+    private final PlayerType type;
 
-    public abstract boolean shouldUseAutoAction();
+    public boolean shouldUseAutoAction() {
+        return type.shouldUseAutoAction();
+    }
+
+    public PlayerView toView() {
+        return PlayerView.builder()
+                .id(id)
+                .nick(nick)
+                .moneyAmount(moneyAmount)
+                .position(currentFieldId)
+                .build();
+    }
 }

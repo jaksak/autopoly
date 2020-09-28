@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.field;
+package pl.longhorn.autopoly.district;
 
 public enum FieldTypeView {
     START,

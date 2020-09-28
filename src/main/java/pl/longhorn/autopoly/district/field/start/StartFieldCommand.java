@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.field.start;
+package pl.longhorn.autopoly.district.field.start;
 
 import org.springframework.stereotype.Service;
 

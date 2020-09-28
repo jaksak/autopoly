@@ -1,11 +1,10 @@
-package pl.longhorn.autopoly.field;
+package pl.longhorn.autopoly.district;
 
 import lombok.Getter;
+import pl.longhorn.autopoly.district.field.AutopolyField;
+import pl.longhorn.autopoly.district.field.FieldInfiniteIterator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DistrictDetails {
@@ -35,6 +34,10 @@ public class DistrictDetails {
 
     public List<AutopolyField> getFieldByBoardOrder() {
         return fieldIdByBoardOrder.stream().map(fieldById::get).collect(Collectors.toList());
+    }
+
+    public Iterator<AutopolyField> getFieldIterator() {
+        return new FieldInfiniteIterator(fieldIdByBoardOrder, fieldById);
     }
 
     public DistrictDetails(AutopolyField initField) {

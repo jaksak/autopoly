@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.field.street;
+package pl.longhorn.autopoly.district.field.street;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,11 @@
-package pl.longhorn.autopoly.field;
+package pl.longhorn.autopoly.district;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.field.empty.EmptyFieldCommand;
-import pl.longhorn.autopoly.field.start.StartFieldCommand;
-import pl.longhorn.autopoly.field.street.SequenceStreetFieldCommand;
+import pl.longhorn.autopoly.district.field.AutopolyField;
+import pl.longhorn.autopoly.district.field.empty.EmptyFieldCommand;
+import pl.longhorn.autopoly.district.field.start.StartFieldCommand;
+import pl.longhorn.autopoly.district.field.street.SequenceStreetFieldCommand;
 import pl.longhorn.autopoly.id.IdFactory;
 import pl.longhorn.autopoly.randomizer.Randomizer;
 import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;

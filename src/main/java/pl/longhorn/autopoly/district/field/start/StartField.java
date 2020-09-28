@@ -1,10 +1,10 @@
-package pl.longhorn.autopoly.field.start;
+package pl.longhorn.autopoly.district.field.start;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.field.AutopolyField;
-import pl.longhorn.autopoly.field.AutopolyFieldDetailsView;
+import pl.longhorn.autopoly.district.field.AutopolyField;
+import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)

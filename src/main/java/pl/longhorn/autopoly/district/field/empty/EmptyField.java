@@ -1,9 +1,9 @@
-package pl.longhorn.autopoly.field.empty;
+package pl.longhorn.autopoly.district.field.empty;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.field.AutopolyField;
-import pl.longhorn.autopoly.field.AutopolyFieldDetailsView;
+import pl.longhorn.autopoly.district.field.AutopolyField;
+import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
 
 @Getter
 @RequiredArgsConstructor

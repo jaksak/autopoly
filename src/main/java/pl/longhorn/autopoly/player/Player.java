@@ -1,13 +1,15 @@
 package pl.longhorn.autopoly.player;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import pl.longhorn.autopoly.player.state.PlayerState;
 import pl.longhorn.autopoly.player.type.PlayerType;
 
 import java.util.List;
 
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+// TODO: class to large
 public class Player {
     @Getter
     private final String id;
@@ -16,6 +18,8 @@ public class Player {
     private final String currentFieldId;
     private final List<String> ownedFields;
     private final PlayerType type;
+    @Getter
+    private final PlayerState state;
 
     public boolean shouldUseAutoAction() {
         return type.shouldUseAutoAction();

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.field.empty;
+package pl.longhorn.autopoly.district.field.empty;
 
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.id.IdFactory;

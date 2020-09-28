@@ -17,6 +17,7 @@ public class CheckStateCommand {
 
     public synchronized void checkState() {
         // TODO: checking date!
+
         for (int i = 0; i < MAX_ACTION_AMOUNT; i++) {
             var param = getParam();
 

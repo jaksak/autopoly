@@ -2,23 +2,28 @@ package pl.longhorn.autopoly.player;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedList;
-import java.util.List;
-
 @Repository
 class PlayerRepository {
 
-    private final List<Player> players = new LinkedList<>();
+    private final Object monitor = new Object();
 
-    public void save(Player player) {
-        players.add(player);
+    private PlayerInBoard playerInBoard = null;
+
+    public void save(PlayerInBoard playerInBoard) {
+        synchronized (monitor) {
+            this.playerInBoard = playerInBoard;
+        }
     }
 
     public void clear() {
-        players.clear();
+        synchronized (monitor) {
+            playerInBoard = null;
+        }
     }
 
-    public List<Player> getAll() {
-        return players;
+    public PlayerInBoard get() {
+        synchronized (monitor) {
+            return playerInBoard;
+        }
     }
 }

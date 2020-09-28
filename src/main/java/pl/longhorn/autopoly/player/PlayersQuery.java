@@ -12,6 +12,6 @@ public class PlayersQuery {
     private final PlayerRepository playerRepository;
 
     public List<Player> get() {
-        return playerRepository.getAll();
+        return playerRepository.get().getPlayers();
     }
 }

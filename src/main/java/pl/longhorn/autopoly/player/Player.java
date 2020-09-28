@@ -1,6 +1,7 @@
 package pl.longhorn.autopoly.player;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.player.type.PlayerType;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class Player {
+    @Getter
     private final String id;
     private final String nick;
     private final int moneyAmount;

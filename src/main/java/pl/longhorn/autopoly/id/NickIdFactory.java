@@ -1,10 +1,9 @@
 package pl.longhorn.autopoly.id;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.nick.NickQuery;
 
-@Service
+//@Service
 @RequiredArgsConstructor
 public class NickIdFactory implements IdFactory {
 

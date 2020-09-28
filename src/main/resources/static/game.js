@@ -1,10 +1,13 @@
 var canvas = document.getElementById("main-canvas");
 var ctx = canvas.getContext("2d");
 
-var test = document.getElementById("test");
+var imgTest = document.getElementById("imgTest");
 
 function drawimg(){
-	ctx.drawImage(test,0,0);
+	
+	ctx.drawImage(imgTest,0,0);
 }
 
-setInterval(drawimg,100);
+imgTest.onload=function(){
+	setInterval(drawimg,200);
+}

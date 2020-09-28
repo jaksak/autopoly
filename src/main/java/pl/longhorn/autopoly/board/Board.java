@@ -7,12 +7,12 @@ import lombok.Getter;
 import java.util.LinkedList;
 import java.util.Queue;
 
+@Getter
 @Builder(access = AccessLevel.PROTECTED)
 public class Board {
-    @Getter
     private final String id;
     @Builder.Default
-    private final Queue<BoardEvent> unconsideredEvent = new LinkedList<>();
+    private final Queue<BoardEvent> unconsideredEvents = new LinkedList<>();
 }
 
 

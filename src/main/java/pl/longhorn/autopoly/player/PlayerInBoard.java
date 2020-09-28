@@ -14,4 +14,12 @@ public class PlayerInBoard {
     @Getter
     @Setter(AccessLevel.PROTECTED)
     private String nextPlayerId;
+
+    public Player getPlayerById(String playerId) {
+        return players
+                .stream()
+                .filter(player -> playerId.equals(player.getId()))
+                .findAny()
+                .orElseThrow();
+    }
 }

@@ -2,53 +2,55 @@ var gBStateButton= document.getElementById('getBoardStateButton');
 var gBConfigButton= document.getElementById('getBoardConfigButton');
 
 var boardID="string";
-
-var initConfigData="empty";
-var boardStateData="empty";
-
+var parcelsData;
 
 /* GET BOARD INIT STATE API REQUEST -beginning-*/
-function gBConfigRequest(){
-	
-    var requestURL = 'https://autopoly.herokuapp.com:443/board/config';
-    
-    function getResponse(){
-        var xhttp= new XMLHttpRequest();
-        xhttp.onreadystatechange= function() {
-            if(this.readyState==4 && this.status==200){
-                initConfigData=this.responseText;
-				alert(initConfigData);
-            }
-        };
-        xhttp.open("GET", requestURL, true);
-        xhttp.send();    
-    }
-	
-    getResponse();  
+window.onload=function(){
+	var requestURL = 'https://autopoly.herokuapp.com:443/board/config';
+	var doAfterResponse=function(a){
+		boardID=a.boardId;
+		parcelsData=a.fields;
+		namesSplited=false;
+		playersUpdate(a.players);
+	};
+	universalRequestFunction(requestURL,doAfterResponse);
 }
-gBConfigButton.onclick=function(){gBConfigRequest();};
-
+gBConfigButton.onclick=function(){
+	var requestURL = 'https://autopoly.herokuapp.com:443/board/config';
+	var doAfterResponse=function(a){
+		boardID=a.boardId;
+		parcelsData=a.fields;
+		namesSplited=false;
+		playersUpdate(a.players);
+		alert((JSON.stringify(a)));
+	};
+	universalRequestFunction(requestURL,doAfterResponse);
+}
 /* GET BOARD INIT STATE API REQUEST -end-*/
 
 /* GET CURRENT BOARD STATE API REQUEST -beginning-*/
-function gBStateRequest(){
-	
-    var requestURL = 'https://autopoly.herokuapp.com:443/board/state?boardId='+boardID;
-    
-    function getResponse(){
+gBStateButton.onclick=function(){
+	var requestURL = 'https://autopoly.herokuapp.com:443/board/state?boardId='+boardID;
+	var doAfterResponse=function(a){
+		playersUpdate(a.players);
+		alert((JSON.stringify(a)));
+	};
+	universalRequestFunction(requestURL,doAfterResponse);
+}
+/* GET CURRENT BOARD STATE API REQUEST -end-*/
+
+/* UNIVERSAL REQUEST FUNCTION -beginning-*/
+function universalRequestFunction(requestURL,doAfterResponse){
+		var serverResponse;
         var xhttp= new XMLHttpRequest();
         xhttp.onreadystatechange= function() {
             if(this.readyState==4 && this.status==200){
-                boardStateData=this.responseText;
-				alert(boardStateData);
+                serverResponse=this.responseText;
+				var a=JSON.parse(serverResponse);
+				doAfterResponse(a);
             }
         };
         xhttp.open("GET", requestURL, true);
-        xhttp.send();    
-    }
-	
-    getResponse();   
+        xhttp.send();  
 }
-gBStateButton.onclick=function(){gBStateRequest();};
-
-/* GET CURRENT BOARD STATE API REQUEST -end-*/
+/* UNIVERSAL REQUEST FUNCTION -end-*/

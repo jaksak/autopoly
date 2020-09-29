@@ -11,11 +11,16 @@
     </head>
     <body>
         <div id="sidebar">
+			<button id="getBoardConfigButton">Get board init config</button><br>
+			<button id="getBoardStateButton">Get board state</button>
+			<p id="bankArea">Bank:<br>
+			Działki</p>
+			<p id="insertArea"></p>
 		</div>
 		<!-- INFO O GRACZACH ITD. W SIDEBARZE -->
 		
         <div id="img_loader">
-			<img id="imgTest" src="graphic/board.png">
+			<img id="boardImg" src="graphic/board.png">
         </div>
         <div id="GameScreen">
             <canvas id="main-canvas" width="720" height="720"></canvas>
@@ -23,7 +28,7 @@
 		
         <script type="text/javascript" src="players.js"></script>
         <script type="text/javascript" src="game.js"></script>
-	<script type="text/javascript" src="requests.js"></script>
+		<script type="text/javascript" src="requests.js"></script>
 		
     </body>
 </html>

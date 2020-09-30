@@ -9,7 +9,10 @@ import pl.longhorn.autopoly.board.BoardActionResult;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.log.BoardLogCommand;
-import pl.longhorn.autopoly.player.*;
+import pl.longhorn.autopoly.player.NextPlayerCommand;
+import pl.longhorn.autopoly.player.NextPlayerQuery;
+import pl.longhorn.autopoly.player.Player;
+import pl.longhorn.autopoly.player.PlayerInBoardQuery;
 
 @Service
 @RequiredArgsConstructor
@@ -40,20 +43,12 @@ public class AutoActionCommand {
         var currentPlayer = nextPlayerQuery.get();
         var shouldContinue = true;
         if (currentPlayer.shouldUseAutoAction()) {
-            var param = getParam(board);
-            var actionResult = currentPlayer.getState().autoProcessAction(param, currentPlayer);
+            var actionResult = currentPlayer.getState().autoProcessAction(currentPlayer);
             processResult(actionResult, board);
         } else {
             shouldContinue = false;
         }
         return shouldContinue;
-    }
-
-    private AutoProcessActionParam getParam(Board board) {
-        return AutoProcessActionParam.builder()
-                .board(board)
-                .districtDetails(districtDetailsQuery.get())
-                .build();
     }
 
     private boolean performPossibleEvents() {

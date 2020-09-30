@@ -7,7 +7,7 @@ public class DistrictGoToCalculator {
 
     private final FieldInfiniteIterator fieldIterator;
 
-    AutopolyField getFieldAfter(String currentFieldId, int addend) {
+    public AutopolyField getFieldAfter(String currentFieldId, int addend) {
         boolean exceedCurrent = false;
         AutopolyField testedField = null;
         for (int i = 0; i < addend; ) {

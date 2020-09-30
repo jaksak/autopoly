@@ -1,11 +1,9 @@
 package pl.longhorn.autopoly.dice;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class DiceRoll {
     protected final int dice1;
     protected final int dice2;

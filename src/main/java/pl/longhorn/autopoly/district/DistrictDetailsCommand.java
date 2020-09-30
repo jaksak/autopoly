@@ -30,26 +30,26 @@ public class DistrictDetailsCommand {
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 2
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 3
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After2Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 4
-        generateDistrict3(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
+        generateDistrict3After2Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
@@ -66,11 +66,19 @@ public class DistrictDetailsCommand {
         result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
     }
 
-    private void generateDistrict3(SequenceStreetFieldCommand sequenceStreetFieldCommand, AutopolyField nonDistrictedBreak, DistrictDetails result) {
+    private void generateDistrict3After1Break(SequenceStreetFieldCommand sequenceStreetFieldCommand, AutopolyField nonDistrictedBreak, DistrictDetails result) {
         String districtId = idFactory.generate();
         result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
         result.addNoDistricted(nonDistrictedBreak);
         result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
+        result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
+    }
+
+    private void generateDistrict3After2Break(SequenceStreetFieldCommand sequenceStreetFieldCommand, AutopolyField nonDistrictedBreak, DistrictDetails result) {
+        String districtId = idFactory.generate();
+        result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
+        result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
+        result.addNoDistricted(nonDistrictedBreak);
         result.addDistricted(sequenceStreetFieldCommand.generate(idFactory.generate(), randomStreetNameQuery.getRandom(), districtId), districtId);
     }
 }

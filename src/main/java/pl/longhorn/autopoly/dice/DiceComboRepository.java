@@ -19,4 +19,10 @@ public class DiceComboRepository {
             diceCombo = combo;
         }
     }
+
+    public void clear() {
+        synchronized (monitor) {
+            diceCombo = null;
+        }
+    }
 }

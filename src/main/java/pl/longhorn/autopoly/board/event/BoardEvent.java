@@ -1,5 +1,7 @@
-package pl.longhorn.autopoly.board;
+package pl.longhorn.autopoly.board.event;
 
+import pl.longhorn.autopoly.board.Board;
+import pl.longhorn.autopoly.board.BoardActionResult;
 import pl.longhorn.autopoly.player.Player;
 
 public interface BoardEvent {

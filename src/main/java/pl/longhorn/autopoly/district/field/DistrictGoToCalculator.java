@@ -20,4 +20,8 @@ public class DistrictGoToCalculator {
         }
         return testedField;
     }
+
+    public boolean isRecountFromZero() {
+        return fieldIterator.isRecountFromZero();
+    }
 }

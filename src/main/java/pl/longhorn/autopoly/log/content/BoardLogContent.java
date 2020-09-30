@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.log;
+package pl.longhorn.autopoly.log.content;
 
 import java.io.Serializable;
 

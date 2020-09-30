@@ -3,6 +3,7 @@ package pl.longhorn.autopoly.log;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.id.IdFactory;
+import pl.longhorn.autopoly.log.content.BoardLogContent;
 
 @Service
 @RequiredArgsConstructor

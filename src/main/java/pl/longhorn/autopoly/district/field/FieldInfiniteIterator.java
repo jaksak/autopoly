@@ -1,5 +1,6 @@
 package pl.longhorn.autopoly.district.field;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Iterator;
@@ -12,6 +13,8 @@ public class FieldInfiniteIterator implements Iterator<AutopolyField> {
     private final List<String> fieldIds;
     private final Map<String, AutopolyField> fieldById;
     private int i = -1;
+    @Getter
+    private boolean recountFromZero = false;
 
     @Override
     public boolean hasNext() {
@@ -25,6 +28,7 @@ public class FieldInfiniteIterator implements Iterator<AutopolyField> {
             return getFieldByPosition(i);
         } else {
             i = 0;
+            recountFromZero = true;
             return getFieldByPosition(0);
         }
     }

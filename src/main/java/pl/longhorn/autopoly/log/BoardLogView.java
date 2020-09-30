@@ -2,6 +2,7 @@ package pl.longhorn.autopoly.log;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import pl.longhorn.autopoly.log.content.BoardLogContent;
 
 import java.io.Serializable;
 

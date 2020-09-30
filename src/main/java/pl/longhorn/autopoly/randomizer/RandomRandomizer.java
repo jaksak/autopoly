@@ -10,7 +10,12 @@ class RandomRandomizer implements Randomizer {
     private final Random random = new Random();
 
     @Override
-    public int nextInt(int maxInt) {
-        return random.nextInt(maxInt);
+    public int nextInt(int min, int max) {
+        return nextInt(max) + min;
+    }
+
+    @Override
+    public int nextInt(int max) {
+        return random.nextInt(max);
     }
 }

@@ -12,7 +12,7 @@ import pl.longhorn.autopoly.district.ownership.MoneyChange;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-class StreetField implements AutopolyField {
+public class StreetField implements AutopolyField {
     private final String id;
     private final String districtId;
     private final String name;

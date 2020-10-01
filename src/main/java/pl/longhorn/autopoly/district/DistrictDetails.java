@@ -3,11 +3,9 @@ package pl.longhorn.autopoly.district;
 import lombok.Getter;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.FieldInfiniteIterator;
+import pl.longhorn.autopoly.district.field.street.StreetField;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DistrictDetails {
@@ -50,5 +48,15 @@ public class DistrictDetails {
     public DistrictDetails(AutopolyField initField) {
         addNoDistricted(initField);
         this.initFieldId = initField.getId();
+    }
+
+    public List<StreetField> getStreetFields() {
+        List<StreetField> fields = new LinkedList<>();
+        fieldById.values().forEach(field -> {
+            if (field instanceof StreetField) {
+                fields.add((StreetField) field);
+            }
+        });
+        return fields;
     }
 }

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.id;
+package pl.longhorn.autopoly.util.id;
 
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.nick.NickQuery;

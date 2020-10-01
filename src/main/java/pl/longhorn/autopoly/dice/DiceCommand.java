@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.dice;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.randomizer.Randomizer;
+import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
 @Service
 @RequiredArgsConstructor

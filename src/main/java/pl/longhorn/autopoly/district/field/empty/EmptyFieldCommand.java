@@ -1,7 +1,7 @@
 package pl.longhorn.autopoly.district.field.empty;
 
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.id.IdFactory;
+import pl.longhorn.autopoly.util.id.IdFactory;
 
 @RequiredArgsConstructor
 public class EmptyFieldCommand {

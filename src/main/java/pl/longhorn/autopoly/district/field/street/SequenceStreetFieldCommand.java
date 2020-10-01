@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.district.field.street;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.randomizer.Randomizer;
+import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
 @Service
 @RequiredArgsConstructor

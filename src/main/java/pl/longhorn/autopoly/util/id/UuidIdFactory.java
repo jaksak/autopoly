@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.id;
+package pl.longhorn.autopoly.util.id;
 
 import java.util.UUID;
 

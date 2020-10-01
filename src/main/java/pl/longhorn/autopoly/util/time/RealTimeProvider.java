@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.time;
+package pl.longhorn.autopoly.util.time;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

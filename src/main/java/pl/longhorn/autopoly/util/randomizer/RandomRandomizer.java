@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.randomizer;
+package pl.longhorn.autopoly.util.randomizer;
 
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.id.IdFactory;
+import pl.longhorn.autopoly.util.id.IdFactory;
 
 @Service
 @RequiredArgsConstructor

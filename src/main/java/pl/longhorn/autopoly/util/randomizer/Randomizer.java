@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.randomizer;
+package pl.longhorn.autopoly.util.randomizer;
 
 public interface Randomizer {
     int nextInt(int max);

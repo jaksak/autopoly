@@ -5,8 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class PlayerWalkLogContent implements BoardLogContent {
-    private final BoardLogType type = BoardLogType.PLAYER_MOVE;
+public class PlayerRentFieldLogContent implements BoardLogContent {
+    private final BoardLogType type = BoardLogType.PLAYER_RENT;
     private final String playerId;
     private final String fieldId;
+    private final int price;
 }

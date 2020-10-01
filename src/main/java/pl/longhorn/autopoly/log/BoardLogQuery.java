@@ -15,7 +15,7 @@ public class BoardLogQuery {
     public List<BoardLog> getByBoardId(String boardId) {
         return repository.getAll()
                 .stream()
-                .filter(log -> boardId.equals(log.getId()))
+                .filter(log -> boardId.equals(log.getBoardId()))
                 .collect(Collectors.toList());
     }
 }

@@ -4,15 +4,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.action.BoardActionResult;
-import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
+import pl.longhorn.autopoly.district.field.districted.DistrictedField;
 import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
 import pl.longhorn.autopoly.district.field.rentable.RentableParam;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StreetField implements AutopolyField {
+public class StreetField implements DistrictedField {
     private final String id;
     private final String districtId;
     private final String name;

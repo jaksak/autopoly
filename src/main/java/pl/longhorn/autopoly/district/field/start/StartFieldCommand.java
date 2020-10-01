@@ -1,11 +1,16 @@
 package pl.longhorn.autopoly.district.field.start;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.longhorn.autopoly.util.id.IdFactory;
 
 @Service
+@RequiredArgsConstructor
 public class StartFieldCommand {
 
-    public StartField prepare(String id) {
-        return new StartField(id);
+    private final IdFactory idFactory;
+
+    public StartField prepare() {
+        return new StartField(idFactory.generate());
     }
 }

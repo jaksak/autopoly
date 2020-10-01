@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.empty.EmptyFieldCommand;
 import pl.longhorn.autopoly.district.field.start.StartFieldCommand;
+import pl.longhorn.autopoly.district.field.station.StationFieldCommand;
 import pl.longhorn.autopoly.district.field.street.SequenceStreetFieldCommand;
 import pl.longhorn.autopoly.district.unique.UniqueStreetNameProvider;
 import pl.longhorn.autopoly.name.street.RandomStreetNameQuery;
@@ -18,9 +19,19 @@ public class DistrictDetailsCommand {
     private final StartFieldCommand startFieldCommand;
     private final Randomizer randomizer;
     private final UniqueStreetNameProvider uniqueStreetNameProvider;
+    private final StationFieldCommand stationFieldCommand;
+
+    public DistrictDetailsCommand(DistrictRepository districtRepository, IdFactory idFactory, RandomStreetNameQuery randomStreetNameQuery, StartFieldCommand startFieldCommand, Randomizer randomizer, StationFieldCommand stationFieldCommand) {
+        this.districtRepository = districtRepository;
+        this.idFactory = idFactory;
+        this.startFieldCommand = startFieldCommand;
+        this.randomizer = randomizer;
+        this.uniqueStreetNameProvider = new UniqueStreetNameProvider(randomStreetNameQuery);
+        this.stationFieldCommand = stationFieldCommand;
+    }
 
     public DistrictDetails prepareFields() {
-        DistrictDetails districtDetails = new DistrictDetails(startFieldCommand.prepare(idFactory.generate()));
+        DistrictDetails districtDetails = new DistrictDetails(startFieldCommand.prepare());
 
         SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer);
         EmptyFieldCommand emptyFieldCommand = new EmptyFieldCommand(idFactory);
@@ -28,42 +39,34 @@ public class DistrictDetailsCommand {
         // 1
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
-        districtDetails.addNoDistricted(emptyFieldCommand.prepare());
+        districtDetails.addNoDistricted(stationFieldCommand.prepare());
         generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 2
         generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
-        districtDetails.addNoDistricted(emptyFieldCommand.prepare());
+        districtDetails.addNoDistricted(stationFieldCommand.prepare());
         generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 3
         generateDistrict3After1Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
-        districtDetails.addNoDistricted(emptyFieldCommand.prepare());
+        districtDetails.addNoDistricted(stationFieldCommand.prepare());
         generateDistrict3After2Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
 
         // 4
         generateDistrict3After2Break(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
-        districtDetails.addNoDistricted(emptyFieldCommand.prepare());
+        districtDetails.addNoDistricted(stationFieldCommand.prepare());
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
         districtRepository.save(districtDetails);
 
         return districtDetails;
-    }
-
-    public DistrictDetailsCommand(DistrictRepository districtRepository, IdFactory idFactory, RandomStreetNameQuery randomStreetNameQuery, StartFieldCommand startFieldCommand, Randomizer randomizer) {
-        this.districtRepository = districtRepository;
-        this.idFactory = idFactory;
-        this.startFieldCommand = startFieldCommand;
-        this.randomizer = randomizer;
-        this.uniqueStreetNameProvider = new UniqueStreetNameProvider(randomStreetNameQuery);
     }
 
     private void generateDistrict2(SequenceStreetFieldCommand sequenceStreetFieldCommand, AutopolyField nonDistrictedBreak, DistrictDetails result) {

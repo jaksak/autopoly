@@ -16,6 +16,7 @@ public class DistrictDetails {
     @Getter
     private final String initFieldId;
 
+    // TODO: hiding district logic!
     protected void addNoDistricted(AutopolyField field) {
         String fieldId = field.getId();
         fieldById.put(fieldId, field);

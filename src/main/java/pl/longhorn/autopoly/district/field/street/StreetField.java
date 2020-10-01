@@ -7,8 +7,8 @@ import pl.longhorn.autopoly.action.BoardActionResult;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
-import pl.longhorn.autopoly.district.ownership.FieldOwnershipChange;
-import pl.longhorn.autopoly.district.ownership.MoneyChange;
+import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
+import pl.longhorn.autopoly.district.field.rentable.RentableParam;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -28,32 +28,15 @@ public class StreetField implements AutopolyField {
 
     @Override
     public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
-        if (!actionParam.fieldHasOwner()) {
-            return buyIfHaveMoney(actionParam);
-        } else if (!actionParam.isCalledByOwner()) {
-            return rentStreet(actionParam);
-        } else {
-            return BoardActionResult.builder()
-                    .build();
-        }
-    }
-
-    private BoardActionResult rentStreet(AutopolyFieldActionParam actionParam) {
-        return BoardActionResult.builder()
-                .moneyChange(new MoneyChange(actionParam.getOwnerId(), rentPrice))
-                .moneyChange(new MoneyChange(actionParam.getPlayer().getId(), -rentPrice))
+        RentableParam param = RentableParam.builder()
+                .fieldId(id)
+                .ownerId(actionParam.getOwnerId())
+                .player(actionParam.getPlayer())
+                .fieldHasOwner(actionParam.fieldHasOwner())
+                .isCalledByOwner(actionParam.isCalledByOwner())
+                .buyingPrice(price)
+                .rentPrice(rentPrice)
                 .build();
-    }
-
-    private BoardActionResult buyIfHaveMoney(AutopolyFieldActionParam actionParam) {
-        if (actionParam.getPlayer().getMoneyAmount() > price) {
-            return BoardActionResult.builder()
-                    .moneyChange(new MoneyChange(actionParam.getPlayer().getId(), -price))
-                    .fieldOwnershipChange(new FieldOwnershipChange(actionParam.getPlayer().getId(), id))
-                    .build();
-        } else {
-            return BoardActionResult.builder()
-                    .build();
-        }
+        return new RentableActionResultCalculator().calculate(param);
     }
 }

@@ -15,7 +15,7 @@ public class FieldOwnershipUpdateCommand {
     public void changeOwnership(String playerId, String fieldId) {
         var players = playerRepository.get();
         changeOwnershipInternal(fieldId, players, playerId);
-        players.getPlayerById(playerId).getOwnedFields().add(fieldId);
+        players.getPlayerById(playerId).getOwnedFieldIds().add(fieldId);
         playerRepository.save(players);
     }
 
@@ -30,16 +30,16 @@ public class FieldOwnershipUpdateCommand {
     }
 
     private Player removeOwnership(String fieldId, Player player) {
-        List<String> fieldIds = new LinkedList<>(player.getOwnedFields());
+        List<String> fieldIds = new LinkedList<>(player.getOwnedFieldIds());
         fieldIds.remove(fieldId);
-        player.setOwnedFields(fieldIds);
+        player.setOwnedFieldIds(fieldIds);
         return player;
     }
 
     private Player addOwnershipToPlayer(String fieldId, Player player) {
-        List<String> fieldIds = new LinkedList<>(player.getOwnedFields());
+        List<String> fieldIds = new LinkedList<>(player.getOwnedFieldIds());
         fieldIds.add(fieldId);
-        player.setOwnedFields(fieldIds);
+        player.setOwnedFieldIds(fieldIds);
         return player;
     }
 }

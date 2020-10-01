@@ -41,7 +41,7 @@ public class WalkBoardEvent implements BoardEvent {
 
     private String getOwnerId() {
         return playerInBoardQuery.get().getPlayers().stream()
-                .filter(player -> player.getOwnedFields().contains(fieldId))
+                .filter(player -> player.getOwnedFieldIds().contains(fieldId))
                 .findAny()
                 .map(Player::getId)
                 .orElse(null);

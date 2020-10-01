@@ -20,7 +20,7 @@ public class Player {
     @Setter(AccessLevel.PACKAGE)
     private String currentFieldId;
     @Setter(AccessLevel.PACKAGE)
-    private List<String> ownedFields;
+    private List<String> ownedFieldIds;
     private final PlayerType type;
     private final PlayerState state;
 
@@ -34,6 +34,7 @@ public class Player {
                 .nick(nick)
                 .moneyAmount(moneyAmount)
                 .position(currentFieldId)
+                .ownedFieldIds(ownedFieldIds)
                 .build();
     }
 }

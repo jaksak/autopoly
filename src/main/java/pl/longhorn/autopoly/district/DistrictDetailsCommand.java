@@ -7,8 +7,8 @@ import pl.longhorn.autopoly.district.field.start.StartFieldCommand;
 import pl.longhorn.autopoly.district.field.street.SequenceStreetFieldCommand;
 import pl.longhorn.autopoly.district.unique.UniqueStreetNameProvider;
 import pl.longhorn.autopoly.id.IdFactory;
+import pl.longhorn.autopoly.name.street.RandomStreetNameQuery;
 import pl.longhorn.autopoly.randomizer.Randomizer;
-import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;
 
 @Service
 public class DistrictDetailsCommand {

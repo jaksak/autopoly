@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.street.name;
+package pl.longhorn.autopoly.name.street;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

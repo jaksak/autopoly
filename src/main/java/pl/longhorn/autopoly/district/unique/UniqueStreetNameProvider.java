@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.district.unique;
 
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.district.field.street.StreetField;
-import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;
+import pl.longhorn.autopoly.name.street.RandomStreetNameQuery;
 
 import java.util.List;
 

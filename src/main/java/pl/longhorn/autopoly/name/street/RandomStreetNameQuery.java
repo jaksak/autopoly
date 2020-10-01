@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.street.name;
+package pl.longhorn.autopoly.name.street;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 class BotPlayerFactory {
 
-    private static final int INIT_MONEY_AMOUNT = 200;
+    private static final int INIT_MONEY_AMOUNT = 500;
     private final IdFactory idFactory;
     private final BotPlayerType botPlayerType = new BotPlayerType();
     private final NickQuery nickQuery;

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.api;
+package pl.longhorn.autopoly.board.api;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -14,7 +14,7 @@ import pl.longhorn.autopoly.street.name.RandomStreetNameQuery;
 @RequiredArgsConstructor
 public class DistrictDetailsCommand {
 
-    private final DistrictDetailsRepository districtDetailsRepository;
+    private final DistrictRepository districtRepository;
     private final IdFactory idFactory;
     private final RandomStreetNameQuery randomStreetNameQuery;
     private final StartFieldCommand startFieldCommand;
@@ -54,7 +54,7 @@ public class DistrictDetailsCommand {
         districtDetails.addNoDistricted(emptyFieldCommand.prepare());
         generateDistrict2(sequenceStreetFieldCommand, emptyFieldCommand.prepare(), districtDetails);
 
-        districtDetailsRepository.save(districtDetails);
+        districtRepository.save(districtDetails);
 
         return districtDetails;
     }

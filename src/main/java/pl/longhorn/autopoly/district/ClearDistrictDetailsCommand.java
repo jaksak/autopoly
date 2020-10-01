@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ClearDistrictDetailsCommand {
 
-    private final DistrictDetailsRepository districtDetailsRepository;
+    private final DistrictRepository districtRepository;
 
     public void delete() {
-        districtDetailsRepository.clear();
+        districtRepository.clear();
     }
 }

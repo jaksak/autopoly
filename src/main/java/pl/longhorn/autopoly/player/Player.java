@@ -15,10 +15,12 @@ import java.util.List;
 public class Player {
     private final String id;
     private final String nick;
-    private final int moneyAmount;
+    @Setter(AccessLevel.PACKAGE)
+    private int moneyAmount;
     @Setter(AccessLevel.PACKAGE)
     private String currentFieldId;
-    private final List<String> ownedFields;
+    @Setter(AccessLevel.PACKAGE)
+    private List<String> ownedFields;
     private final PlayerType type;
     private final PlayerState state;
 

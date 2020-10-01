@@ -1,6 +1,6 @@
 package pl.longhorn.autopoly.district.field;
 
-import pl.longhorn.autopoly.board.BoardActionResult;
+import pl.longhorn.autopoly.action.BoardActionResult;
 
 // TODO: package field
 public interface AutopolyField {

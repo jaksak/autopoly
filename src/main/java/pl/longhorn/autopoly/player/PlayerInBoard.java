@@ -22,4 +22,14 @@ public class PlayerInBoard {
                 .findAny()
                 .orElseThrow();
     }
+
+    public void update(Player updated) {
+        players.replaceAll(player -> {
+            if (player.getId().equals(updated.getId())) {
+                return updated;
+            } else {
+                return player;
+            }
+        });
+    }
 }

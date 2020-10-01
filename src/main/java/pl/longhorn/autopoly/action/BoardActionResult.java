@@ -1,10 +1,11 @@
-package pl.longhorn.autopoly.board;
+package pl.longhorn.autopoly.action;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 import pl.longhorn.autopoly.board.event.BoardEvent;
-import pl.longhorn.autopoly.district.FieldOwnerityChange;
+import pl.longhorn.autopoly.district.ownership.FieldOwnershipChange;
+import pl.longhorn.autopoly.district.ownership.MoneyChange;
 import pl.longhorn.autopoly.log.content.BoardLogContent;
 
 import java.util.List;
@@ -19,7 +20,8 @@ public class BoardActionResult {
     private final List<BoardEvent> events;
 
     @Singular
-    private final List<FieldOwnerityChange> fieldOwnerityChanges;
+    private final List<FieldOwnershipChange> fieldOwnershipChanges;
 
-    private final int moneyChange;
+    @Singular
+    private final List<MoneyChange> moneyChanges;
 }

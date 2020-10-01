@@ -3,8 +3,8 @@ package pl.longhorn.autopoly.board.event.walk;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import pl.longhorn.autopoly.action.BoardActionResult;
 import pl.longhorn.autopoly.board.Board;
-import pl.longhorn.autopoly.board.BoardActionResult;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.FieldQuery;
@@ -33,22 +33,17 @@ public class WalkBoardEvent implements BoardEvent {
     }
 
     private AutopolyFieldActionParam prepareParam(Player player) {
-        boolean isOwner = findIsOwner(player, fieldId);
-
         return AutopolyFieldActionParam.builder()
-                .isOwner(isOwner)
-                .hasAnyOwner(isOwner || anyHasOwner())
+                .ownerId(getOwnerId())
                 .player(player)
                 .build();
     }
 
-    private boolean anyHasOwner() {
+    private String getOwnerId() {
         return playerInBoardQuery.get().getPlayers().stream()
-                .map(Player::getOwnedFields)
-                .anyMatch(ownedFields -> ownedFields.contains(fieldId));
-    }
-
-    private boolean findIsOwner(Player player, String fieldId) {
-        return player.getOwnedFields().contains(fieldId);
+                .filter(player -> player.getOwnedFields().contains(fieldId))
+                .findAny()
+                .map(Player::getId)
+                .orElse(null);
     }
 }

@@ -1,12 +1,13 @@
 package pl.longhorn.autopoly.player.state;
 
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.board.BoardActionResult;
+import pl.longhorn.autopoly.action.BoardActionResult;
 import pl.longhorn.autopoly.board.BoardQuery;
 import pl.longhorn.autopoly.board.event.walk.WalkBoardEventFactory;
 import pl.longhorn.autopoly.dice.DiceCommand;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.DistrictGoToCalculator;
+import pl.longhorn.autopoly.district.ownership.MoneyChange;
 import pl.longhorn.autopoly.player.Player;
 
 @RequiredArgsConstructor
@@ -32,7 +33,7 @@ public class WalkPlayerState implements PlayerState {
             var newField = calculator.getFieldAfter(player.getCurrentFieldId(), diceResult.sum());
             var resultBuilder = BoardActionResult.builder().event(walkBoardEventFactory.create(player.getId(), newField.getId()));
             if (calculator.isRecountFromZero()) {
-                resultBuilder.moneyChange(MONEY_CHANGE_AFTER_START);
+                resultBuilder.moneyChange(new MoneyChange(player.getId(), MONEY_CHANGE_AFTER_START));
             }
             return resultBuilder.build();
         }

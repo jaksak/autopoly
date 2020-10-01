@@ -7,7 +7,14 @@ import pl.longhorn.autopoly.player.Player;
 @Builder
 @Getter
 public class AutopolyFieldActionParam {
-    private final boolean isOwner;
-    private final boolean hasAnyOwner;
+    private final String ownerId;
     private final Player player;
+
+    public boolean fieldHasOwner() {
+        return ownerId != null;
+    }
+
+    public boolean isCalledByOwner() {
+        return player.getId().equals(ownerId);
+    }
 }

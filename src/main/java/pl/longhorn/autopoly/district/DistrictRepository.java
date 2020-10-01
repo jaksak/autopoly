@@ -3,7 +3,7 @@ package pl.longhorn.autopoly.district;
 import org.springframework.stereotype.Repository;
 
 @Repository
-class DistrictDetailsRepository {
+class DistrictRepository {
 
     private final Object monitor = new Object();
 

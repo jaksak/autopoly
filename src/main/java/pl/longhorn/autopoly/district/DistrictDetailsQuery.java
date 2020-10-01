@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DistrictDetailsQuery {
 
-    private final DistrictDetailsRepository districtDetailsRepository;
+    private final DistrictRepository districtRepository;
 
     public DistrictDetails get() {
-        return districtDetailsRepository.get();
+        return districtRepository.get();
     }
 }

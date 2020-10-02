@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.action.ActionResultProcessor;
 import pl.longhorn.autopoly.board.BoardAccessor;
+import pl.longhorn.autopoly.board.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.player.NextPlayerCommand;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
@@ -19,6 +20,7 @@ public class AutoActionCommand {
     private final NextPlayerQuery nextPlayerQuery;
     private final NextPlayerCommand nextPlayerCommand;
     private final ActionResultProcessor actionResultProcessor;
+    private final DeleteBoardEventCommand deleteBoardEventCommand;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -33,7 +35,6 @@ public class AutoActionCommand {
     }
 
     private boolean performSingleAction() {
-        var board = boardAccessor.getBoard();
         var currentPlayer = nextPlayerQuery.get();
         var shouldContinue = true;
         if (currentPlayer.shouldUseAutoAction()) {
@@ -54,6 +55,7 @@ public class AutoActionCommand {
             if (player.shouldUseAutoAction()) {
                 var result = event.react(board, player);
                 actionResultProcessor.processResult(result);
+                deleteBoardEventCommand.delete(event.getId());
             } else {
                 shouldContinue = false;
             }

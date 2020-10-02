@@ -16,6 +16,8 @@ import pl.longhorn.autopoly.player.UpdatePlayerPositionCommand;
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class WalkBoardEvent implements BoardEvent {
     @Getter
+    private final String id;
+    @Getter
     private final String playerId;
     private final String fieldId;
 

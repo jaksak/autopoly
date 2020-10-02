@@ -8,7 +8,7 @@ import pl.longhorn.autopoly.dice.DiceCommand;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.DistrictGoToCalculator;
 import pl.longhorn.autopoly.district.ownership.MoneyChange;
-import pl.longhorn.autopoly.log.content.PlayerWalkLogContent;
+import pl.longhorn.autopoly.log.content.DiceToWalkLogContent;
 import pl.longhorn.autopoly.player.Player;
 
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class WalkPlayerState implements PlayerState {
             var newField = calculator.getFieldAfter(player.getCurrentFieldId(), diceResult.sum());
             var resultBuilder = BoardActionResult.builder()
                     .event(walkBoardEventFactory.create(player.getId(), newField.getId()))
-                    .log(new PlayerWalkLogContent(player.getId(), newField.getId()));
+                    .log(new DiceToWalkLogContent(player.getId(), diceResult.getDice1Value(), diceResult.getDice2Value()));
             if (calculator.isRecountFromZero()) {
                 resultBuilder.moneyChange(new MoneyChange(player.getId(), MONEY_CHANGE_AFTER_START));
             }

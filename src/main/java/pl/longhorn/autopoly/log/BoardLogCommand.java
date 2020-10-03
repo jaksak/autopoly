@@ -9,7 +9,7 @@ import pl.longhorn.autopoly.util.id.IdFactory;
 @RequiredArgsConstructor
 public class BoardLogCommand {
 
-    private static final int MAX_LOG_AMOUNT = 150;
+    private static final int MAX_LOG_AMOUNT = 50;
 
     private final BoardLogRepository repository;
     private final IdFactory idFactory;

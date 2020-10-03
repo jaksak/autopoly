@@ -15,10 +15,4 @@ public class NextPlayerCommand {
         playerInBoard.setNextPlayerId(new NextPlayerCalculator().getNext(playerInBoard.getNextPlayerId(), playerInBoard.getPlayers()));
         repository.save(playerInBoard);
     }
-
-    public void setNext(String nextPlayerId) {
-        var playerInBoard = repository.get();
-        playerInBoard.setNextPlayerId(nextPlayerId);
-        repository.save(playerInBoard);
-    }
 }

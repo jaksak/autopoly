@@ -28,6 +28,10 @@ public class Player {
         return type.shouldUseAutoAction();
     }
 
+    public boolean isActive() {
+        return moneyAmount > -1;
+    }
+
     public PlayerView toView() {
         return PlayerView.builder()
                 .id(id)

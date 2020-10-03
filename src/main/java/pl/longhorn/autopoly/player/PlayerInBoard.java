@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class PlayerInBoard {
@@ -23,13 +25,9 @@ public class PlayerInBoard {
                 .orElseThrow();
     }
 
-    public void update(Player updated) {
-        players.replaceAll(player -> {
-            if (player.getId().equals(updated.getId())) {
-                return updated;
-            } else {
-                return player;
-            }
-        });
+    public Optional<Player> getTheBest() {
+        return players.stream()
+                .sorted(Comparator.comparingInt(Player::getMoneyAmount).reversed())
+                .findFirst();
     }
 }

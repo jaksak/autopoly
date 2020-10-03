@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.action.ActionResultProcessor;
 import pl.longhorn.autopoly.board.BoardAccessor;
+import pl.longhorn.autopoly.board.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
+import pl.longhorn.autopoly.log.BoardLogCommand;
+import pl.longhorn.autopoly.log.content.BoardFinishedLogContent;
 import pl.longhorn.autopoly.player.NextPlayerCommand;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
@@ -21,6 +24,8 @@ public class AutoActionCommand {
     private final NextPlayerCommand nextPlayerCommand;
     private final ActionResultProcessor actionResultProcessor;
     private final DeleteBoardEventCommand deleteBoardEventCommand;
+    private final BoardLogCommand boardLogCommand;
+    private final DeleteBoardCommand deleteBoardCommand;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -36,7 +41,16 @@ public class AutoActionCommand {
 
     private boolean performSingleAction() {
         var currentPlayer = nextPlayerQuery.get();
-        var shouldContinue = true;
+        if (currentPlayer.isPresent()) {
+            return performSingleActionInternal(currentPlayer.get());
+        } else {
+            finishGame();
+            return false;
+        }
+    }
+
+    private boolean performSingleActionInternal(Player currentPlayer) {
+        boolean shouldContinue = true;
         if (currentPlayer.shouldUseAutoAction()) {
             var actionResult = currentPlayer.getState().autoProcessAction(currentPlayer);
             actionResultProcessor.processResult(actionResult);
@@ -44,6 +58,13 @@ public class AutoActionCommand {
             shouldContinue = false;
         }
         return shouldContinue;
+    }
+
+    private void finishGame() {
+        var board = boardAccessor.getBoard();
+        var playerInBoard = playerInBoardQuery.get();
+        boardLogCommand.add(new BoardFinishedLogContent(board.getId(), playerInBoard.getTheBest().map(Player::getId).orElseThrow()), board.getId());
+        deleteBoardCommand.deleteBoard();
     }
 
     private boolean performPossibleEvents() {

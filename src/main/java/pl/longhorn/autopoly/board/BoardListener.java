@@ -22,7 +22,6 @@ class BoardListener {
         playerInBoardCommand.create(district.getInitFieldId());
     }
 
-    // TODO: use it!
     public void afterBoardDelete() {
         clearDistrictDetailsCommand.delete();
         clearPlayerCommand.clear();

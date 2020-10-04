@@ -7,8 +7,6 @@ import pl.longhorn.autopoly.board.BoardAccessor;
 import pl.longhorn.autopoly.board.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
-import pl.longhorn.autopoly.log.BoardLogCommand;
-import pl.longhorn.autopoly.log.content.BoardFinishedLogContent;
 import pl.longhorn.autopoly.player.NextPlayerCommand;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
@@ -24,7 +22,6 @@ public class AutoActionCommand {
     private final NextPlayerCommand nextPlayerCommand;
     private final ActionResultProcessor actionResultProcessor;
     private final DeleteBoardEventCommand deleteBoardEventCommand;
-    private final BoardLogCommand boardLogCommand;
     private final DeleteBoardCommand deleteBoardCommand;
 
     public boolean doAutoAction() {
@@ -44,7 +41,7 @@ public class AutoActionCommand {
         if (currentPlayer.isPresent()) {
             return performSingleActionInternal(currentPlayer.get());
         } else {
-            finishGame();
+            deleteBoardCommand.deleteBoard();
             return false;
         }
     }
@@ -58,13 +55,6 @@ public class AutoActionCommand {
             shouldContinue = false;
         }
         return shouldContinue;
-    }
-
-    private void finishGame() {
-        var board = boardAccessor.getBoard();
-        var playerInBoard = playerInBoardQuery.get();
-        boardLogCommand.add(new BoardFinishedLogContent(board.getId(), playerInBoard.getTheBest().map(Player::getId).orElseThrow()), board.getId());
-        deleteBoardCommand.deleteBoard();
     }
 
     private boolean performPossibleEvents() {

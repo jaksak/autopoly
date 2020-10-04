@@ -105,11 +105,6 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
     }
 
     @Override
-    public HousableField resetHouseLvl() {
-        return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, 0, isLocked);
-    }
-
-    @Override
     public boolean shouldLock() {
         return houseLvl == 0 && !isLocked;
     }

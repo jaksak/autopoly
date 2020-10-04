@@ -18,6 +18,4 @@ public interface HousableField extends AutopolyField {
     HousableField increaseHouseLvl() throws IllegalHouseLvlOperationException;
 
     HousableField decreaseHouseLvl() throws IllegalHouseLvlOperationException;
-
-    HousableField resetHouseLvl();
 }

@@ -38,6 +38,7 @@ public class Player {
                 .moneyAmount(moneyAmount)
                 .position(currentFieldId)
                 .ownedFieldIds(ownedFieldIds)
+                .isActive(isActive)
                 .build();
     }
 

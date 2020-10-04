@@ -14,4 +14,5 @@ public class PlayerView implements Serializable {
     private final int moneyAmount;
     private final String position;
     private final List<String> ownedFieldIds;
+    private final boolean isActive;
 }

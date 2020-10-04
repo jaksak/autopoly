@@ -8,7 +8,7 @@ import pl.longhorn.autopoly.action.auto.AutoActionCommand;
 @RequiredArgsConstructor
 public class CheckStateCommand {
 
-    private static final int MAX_ACTION_AMOUNT = 1;
+    private static final int MAX_ACTION_AMOUNT = 2;
     private final AutoActionCommand autoActionCommand;
 
     public synchronized void checkState() {

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.ownership;
+package pl.longhorn.autopoly.player.money;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

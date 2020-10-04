@@ -22,7 +22,7 @@ class BotPlayerFactory {
     private final WalkPlayerState walkPlayerState;
 
     public Player create(String startFieldId) {
-        return new Player(idFactory.generate(), nickQuery.getRandom(), INIT_MONEY_AMOUNT, startFieldId, List.of(), botPlayerType, walkPlayerState);
+        return new Player(idFactory.generate(), nickQuery.getRandom(), INIT_MONEY_AMOUNT, startFieldId, List.of(), botPlayerType, walkPlayerState, true);
     }
 
     BotPlayerFactory(IdFactory idFactory, DiceCommand diceCommand, NickQuery nickQuery, BoardQuery boardQuery, WalkBoardEventFactory walkBoardEventFactory, DistrictDetailsQuery districtDetailsQuery) {

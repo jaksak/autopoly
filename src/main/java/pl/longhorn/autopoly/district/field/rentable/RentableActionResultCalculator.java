@@ -2,24 +2,24 @@ package pl.longhorn.autopoly.district.field.rentable;
 
 import pl.longhorn.autopoly.action.BoardActionResult;
 import pl.longhorn.autopoly.district.ownership.FieldOwnershipChange;
-import pl.longhorn.autopoly.district.ownership.MoneyChange;
 import pl.longhorn.autopoly.log.content.PlayerBuyFieldLogContent;
 import pl.longhorn.autopoly.log.content.PlayerRentFieldLogContent;
+import pl.longhorn.autopoly.player.money.MoneyChange;
 
 public class RentableActionResultCalculator {
 
     public BoardActionResult calculate(RentableParam param) {
         if (!param.isFieldHasOwner()) {
             return buyIfHaveMoney(param);
-        } else if (!param.isCalledByOwner()) {
-            return rentStreet(param);
+        } else if (!param.isCalledByOwner() && !param.isLocked()) {
+            return rentField(param);
         } else {
             return BoardActionResult.builder()
                     .build();
         }
     }
 
-    private BoardActionResult rentStreet(RentableParam param) {
+    private BoardActionResult rentField(RentableParam param) {
         return BoardActionResult.builder()
                 .moneyChange(new MoneyChange(param.getOwnerId(), param.getRentPrice()))
                 .moneyChange(new MoneyChange(param.getPlayer().getId(), -param.getRentPrice()))

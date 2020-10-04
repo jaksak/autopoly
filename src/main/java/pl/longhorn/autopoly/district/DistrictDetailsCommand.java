@@ -2,10 +2,10 @@ package pl.longhorn.autopoly.district;
 
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.field.AutopolyField;
-import pl.longhorn.autopoly.district.field.empty.EmptyFieldCommand;
-import pl.longhorn.autopoly.district.field.start.StartFieldCommand;
-import pl.longhorn.autopoly.district.field.station.StationFieldCommand;
-import pl.longhorn.autopoly.district.field.street.SequenceStreetFieldCommand;
+import pl.longhorn.autopoly.district.field.definition.empty.EmptyFieldCommand;
+import pl.longhorn.autopoly.district.field.definition.start.StartFieldCommand;
+import pl.longhorn.autopoly.district.field.definition.station.StationFieldCommand;
+import pl.longhorn.autopoly.district.field.definition.street.SequenceStreetFieldCommand;
 import pl.longhorn.autopoly.district.unique.UniqueStreetNameProvider;
 import pl.longhorn.autopoly.name.street.RandomStreetNameQuery;
 import pl.longhorn.autopoly.util.id.IdFactory;

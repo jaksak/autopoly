@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.Singular;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.district.ownership.FieldOwnershipChange;
-import pl.longhorn.autopoly.district.ownership.MoneyChange;
 import pl.longhorn.autopoly.log.content.BoardLogContent;
+import pl.longhorn.autopoly.player.money.MoneyChange;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.street;
+package pl.longhorn.autopoly.district.field.definition.street;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,4 +14,7 @@ class StreetFieldView implements AutopolyFieldDetailsView {
     private final String name;
     private final int price;
     private final int housePrice;
+    private final int hotelPrice;
+    private final int houseLvl;
+    private final boolean isLocked;
 }

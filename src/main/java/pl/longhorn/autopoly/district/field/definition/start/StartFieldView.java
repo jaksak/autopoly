@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.start;
+package pl.longhorn.autopoly.district.field.definition.start;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

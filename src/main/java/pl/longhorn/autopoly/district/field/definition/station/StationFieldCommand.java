@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.station;
+package pl.longhorn.autopoly.district.field.definition.station;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +13,6 @@ public class StationFieldCommand {
     private final RandomTrainStationNameQuery trainStationNameQuery;
 
     public StationField prepare() {
-        return new StationField(idFactory.generate(), trainStationNameQuery.getRandom());
+        return new StationField(idFactory.generate(), trainStationNameQuery.getRandom(), false);
     }
 }

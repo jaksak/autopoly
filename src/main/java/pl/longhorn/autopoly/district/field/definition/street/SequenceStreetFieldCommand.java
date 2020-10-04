@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.street;
+package pl.longhorn.autopoly.district.field.definition.street;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class SequenceStreetFieldCommand {
         int housePrice = calculateHousePrice(districtId);
         latestHousePrice = housePrice;
         latestDistrictId = districtId;
-        return new StreetField(id, name, districtId, currentPrice, housePrice);
+        return new StreetField(id, name, districtId, currentPrice, currentPrice / 50 * 10 + 25, housePrice, false);
     }
 
     private int calculateHousePrice(String districtId) {

@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.state;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.auto.AutoActionCommand;
+import pl.longhorn.autopoly.action.auto.AutoActionCommand;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.empty;
+package pl.longhorn.autopoly.district.field.definition.empty;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +22,10 @@ class EmptyField implements AutopolyField {
     public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
         return BoardActionResult.builder()
                 .build();
+    }
+
+    @Override
+    public AutopolyField reset() {
+        return this;
     }
 }

@@ -23,13 +23,12 @@ public class Player {
     private List<String> ownedFieldIds;
     private final PlayerType type;
     private final PlayerState state;
+    @Getter
+    @Setter(AccessLevel.PACKAGE)
+    private boolean isActive;
 
     public boolean shouldUseAutoAction() {
         return type.shouldUseAutoAction();
-    }
-
-    public boolean isActive() {
-        return moneyAmount > -1;
     }
 
     public PlayerView toView() {
@@ -40,5 +39,9 @@ public class Player {
                 .position(currentFieldId)
                 .ownedFieldIds(ownedFieldIds)
                 .build();
+    }
+
+    public boolean hasNegativeBalance() {
+        return moneyAmount < 0;
     }
 }

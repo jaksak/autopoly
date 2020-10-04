@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.start;
+package pl.longhorn.autopoly.district.field.definition.start;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,5 +23,10 @@ class StartField implements AutopolyField {
     public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
         return BoardActionResult.builder()
                 .build();
+    }
+
+    @Override
+    public AutopolyField reset() {
+        return this;
     }
 }

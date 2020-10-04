@@ -13,6 +13,7 @@ import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.log.BoardLog;
 import pl.longhorn.autopoly.log.BoardLogAfterIdQuery;
 import pl.longhorn.autopoly.log.BoardLogQuery;
+import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayersQuery;
 import pl.longhorn.autopoly.state.CheckStateCommand;
@@ -30,6 +31,7 @@ public class BoardController {
     private final BoardAccessor boardAccessor;
     private final BoardLogQuery boardLogQuery;
     private final BoardLogAfterIdQuery boardLogAfterIdQuery;
+    private final NextPlayerQuery nextPlayerQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
@@ -48,6 +50,7 @@ public class BoardController {
                     .boardId(board.getId())
                     .fields(districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList()))
                     .players(playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
+                    .currentPlayerId(nextPlayerQuery.get().map(Player::getId).orElse(null))
                     .build();
         }
 }

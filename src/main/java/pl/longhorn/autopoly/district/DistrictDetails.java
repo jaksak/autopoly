@@ -3,12 +3,13 @@ package pl.longhorn.autopoly.district;
 import lombok.Getter;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.FieldInfiniteIterator;
+import pl.longhorn.autopoly.district.field.definition.street.StreetField;
 import pl.longhorn.autopoly.district.field.districted.DistrictedField;
-import pl.longhorn.autopoly.district.field.street.StreetField;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+// TODO: separate card & district?
 public class DistrictDetails {
     private final Map<String, AutopolyField> fieldById = new HashMap<>();
 
@@ -68,5 +69,9 @@ public class DistrictDetails {
             }
         });
         return fields;
+    }
+
+    protected void update(AutopolyField field) {
+        fieldById.computeIfPresent(field.getId(), (id, currentCard) -> field);
     }
 }

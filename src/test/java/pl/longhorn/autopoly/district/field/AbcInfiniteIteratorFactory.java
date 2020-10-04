@@ -42,6 +42,11 @@ public class AbcInfiniteIteratorFactory {
             public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
                 return BoardActionResult.builder().build();
             }
+
+            @Override
+            public AutopolyField reset() {
+                return null;
+            }
         };
     }
 }

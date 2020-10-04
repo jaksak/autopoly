@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.district.field.station;
+package pl.longhorn.autopoly.district.field.definition.station;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,5 +10,6 @@ import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
 public class StationFieldView implements AutopolyFieldDetailsView {
     private final String id;
     private final String name;
+    private final boolean isLocked;
     private final FieldTypeView type = FieldTypeView.STATION;
 }

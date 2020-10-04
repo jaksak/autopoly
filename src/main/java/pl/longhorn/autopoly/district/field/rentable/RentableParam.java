@@ -15,4 +15,5 @@ public class RentableParam {
     private final boolean isCalledByOwner;
     private final int buyingPrice;
     private final int rentPrice;
+    private final boolean isLocked;
 }

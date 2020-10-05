@@ -78,7 +78,7 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
 
     @Override
     public boolean shouldIncreaseHouseLvl() {
-        return houseLvl < MAX_HOUSE_LVL;
+        return houseLvl < MAX_HOUSE_LVL && !isLocked;
     }
 
     @Override

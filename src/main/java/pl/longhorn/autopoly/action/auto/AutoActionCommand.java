@@ -5,8 +5,9 @@ import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.action.result.ActionResultProcessor;
 import pl.longhorn.autopoly.board.BoardAccessor;
 import pl.longhorn.autopoly.board.cqrs.DeleteBoardCommand;
-import pl.longhorn.autopoly.board.cqrs.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
+import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
+import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
@@ -23,6 +24,7 @@ public class AutoActionCommand {
     private final ActionResultProcessor actionResultProcessor;
     private final DeleteBoardEventCommand deleteBoardEventCommand;
     private final DeleteBoardCommand deleteBoardCommand;
+    private final BoardEventsQuery boardEventsQuery;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -61,7 +63,7 @@ public class AutoActionCommand {
         var shouldContinue = true;
         var board = boardAccessor.getBoard();
         var playerInBoard = playerInBoardQuery.get();
-        for (BoardEvent event : board.getUnconsideredEvents()) {
+        for (BoardEvent event : boardEventsQuery.get()) {
             Player player = playerInBoard.getPlayerById(event.getPlayerId());
             if (player.shouldUseAutoAction()) {
                 var result = event.react(board, player);

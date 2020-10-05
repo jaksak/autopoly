@@ -2,6 +2,7 @@ package pl.longhorn.autopoly.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import pl.longhorn.autopoly.board.event.cqrs.ClearBoardEventsCommand;
 import pl.longhorn.autopoly.district.ClearDistrictDetailsCommand;
 import pl.longhorn.autopoly.district.DistrictDetailsCommand;
 import pl.longhorn.autopoly.player.ClearPlayerCommand;
@@ -16,6 +17,7 @@ public class BoardListener {
 
     private final ClearDistrictDetailsCommand clearDistrictDetailsCommand;
     private final ClearPlayerCommand clearPlayerCommand;
+    private final ClearBoardEventsCommand clearBoardEventsCommand;
 
     public void afterBoardCreate() {
         var district = districtDetailsCommand.prepareFields();
@@ -25,5 +27,6 @@ public class BoardListener {
     public void afterBoardDelete() {
         clearDistrictDetailsCommand.delete();
         clearPlayerCommand.clear();
+        clearBoardEventsCommand.clear();
     }
 }

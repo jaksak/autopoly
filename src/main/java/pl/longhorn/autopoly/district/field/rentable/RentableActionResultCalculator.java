@@ -1,6 +1,6 @@
 package pl.longhorn.autopoly.district.field.rentable;
 
-import pl.longhorn.autopoly.action.BoardActionResult;
+import pl.longhorn.autopoly.action.result.BoardActionResult;
 import pl.longhorn.autopoly.district.ownership.FieldOwnershipChange;
 import pl.longhorn.autopoly.log.content.PlayerBuyFieldLogContent;
 import pl.longhorn.autopoly.log.content.PlayerRentFieldLogContent;

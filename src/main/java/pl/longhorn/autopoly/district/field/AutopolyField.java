@@ -1,6 +1,6 @@
 package pl.longhorn.autopoly.district.field;
 
-import pl.longhorn.autopoly.action.BoardActionResult;
+import pl.longhorn.autopoly.action.result.BoardActionResult;
 
 public interface AutopolyField {
     String getId();

@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.action.auto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.action.ActionResultProcessor;
+import pl.longhorn.autopoly.action.result.ActionResultProcessor;
 import pl.longhorn.autopoly.board.BoardAccessor;
 import pl.longhorn.autopoly.board.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.DeleteBoardEventCommand;

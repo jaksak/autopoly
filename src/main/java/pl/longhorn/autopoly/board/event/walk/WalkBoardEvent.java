@@ -3,7 +3,7 @@ package pl.longhorn.autopoly.board.event.walk;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.action.BoardActionResult;
+import pl.longhorn.autopoly.action.result.BoardActionResult;
 import pl.longhorn.autopoly.board.Board;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;

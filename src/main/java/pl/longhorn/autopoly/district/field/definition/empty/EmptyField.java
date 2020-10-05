@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.district.field.definition.empty;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.action.BoardActionResult;
+import pl.longhorn.autopoly.action.result.BoardActionResult;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;

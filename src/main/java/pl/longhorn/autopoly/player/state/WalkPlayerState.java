@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.player.state;
 
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.action.result.BoardActionResult;
-import pl.longhorn.autopoly.board.BoardQuery;
+import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.board.event.walk.WalkBoardEventFactory;
 import pl.longhorn.autopoly.dice.DiceCommand;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;

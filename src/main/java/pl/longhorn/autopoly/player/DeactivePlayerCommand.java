@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.player;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.board.BoardQuery;
+import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.district.field.ResetFieldCommand;
 import pl.longhorn.autopoly.log.BoardLogCommand;
 import pl.longhorn.autopoly.log.content.DeactivatePlayerLogContent;

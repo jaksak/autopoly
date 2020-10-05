@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.district.field;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.board.BoardQuery;
+import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.district.FieldService;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.log.BoardLogCommand;

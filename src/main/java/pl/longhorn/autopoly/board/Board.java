@@ -1,6 +1,5 @@
 package pl.longhorn.autopoly.board;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,11 +9,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 @Getter
-@Builder(access = AccessLevel.PROTECTED)
+@Builder
 public class Board {
     private final String id;
     @Builder.Default
-    @Setter(AccessLevel.PACKAGE)
+    @Setter
     private Queue<BoardEvent> unconsideredEvents = new LinkedList<>();
 }
 

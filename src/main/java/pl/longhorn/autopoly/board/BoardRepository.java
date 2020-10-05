@@ -3,7 +3,7 @@ package pl.longhorn.autopoly.board;
 import org.springframework.stereotype.Repository;
 
 @Repository
-class BoardRepository {
+public class BoardRepository {
 
     private final Object monitor = new Object();
     private Board board;

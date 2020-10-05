@@ -9,7 +9,7 @@ import pl.longhorn.autopoly.player.PlayerInBoardCommand;
 
 @Component
 @RequiredArgsConstructor
-class BoardListener {
+public class BoardListener {
 
     private final DistrictDetailsCommand districtDetailsCommand;
     private final PlayerInBoardCommand playerInBoardCommand;

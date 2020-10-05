@@ -2,6 +2,8 @@ package pl.longhorn.autopoly.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.longhorn.autopoly.board.cqrs.BoardCommand;
+import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 
 @Service
 @RequiredArgsConstructor

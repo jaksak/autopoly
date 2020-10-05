@@ -1,7 +1,9 @@
-package pl.longhorn.autopoly.board;
+package pl.longhorn.autopoly.board.cqrs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.longhorn.autopoly.board.BoardListener;
+import pl.longhorn.autopoly.board.BoardRepository;
 import pl.longhorn.autopoly.log.BoardLogCommand;
 import pl.longhorn.autopoly.log.content.BoardFinishedLogContent;
 import pl.longhorn.autopoly.player.Player;

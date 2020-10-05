@@ -1,7 +1,9 @@
-package pl.longhorn.autopoly.board;
+package pl.longhorn.autopoly.board.cqrs;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.longhorn.autopoly.board.BoardAccessor;
+import pl.longhorn.autopoly.board.BoardRepository;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 
 import java.util.LinkedList;

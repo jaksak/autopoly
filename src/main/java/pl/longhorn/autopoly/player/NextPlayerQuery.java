@@ -13,10 +13,10 @@ public class NextPlayerQuery {
 
     public Optional<Player> get() {
         var playerInBoard = playerRepository.get();
-        var nextPlayerId = playerInBoard.getNextPlayerId();
-        if (nextPlayerId == null) {
+        if (playerInBoard == null || playerInBoard.getNextPlayerId() == null) {
             return Optional.empty();
         } else {
+            var nextPlayerId = playerInBoard.getNextPlayerId();
             return playerInBoard.getPlayers().stream()
                     .filter(player -> player.getId().equals(nextPlayerId))
                     .findAny();

@@ -26,8 +26,6 @@ public class PlayerInBoard {
     }
 
     public Optional<Player> getTheBest() {
-        return players.stream()
-                .sorted(Comparator.comparingInt(Player::getMoneyAmount).reversed())
-                .findFirst();
+        return players.stream().max(Comparator.comparingInt(Player::getMoneyAmount));
     }
 }

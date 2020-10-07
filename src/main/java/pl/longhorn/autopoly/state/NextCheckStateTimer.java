@@ -9,6 +9,7 @@ public class NextCheckStateTimer {
     private static final long CHECK_STATE_SECONDS_INTERVAL = 1;
 
     public boolean shouldCheckState(CheckStateHistory checkStateHistory, LocalDateTime currentTime) {
+        System.out.println(currentTime);
         if (checkStateHistory == null) {
             return true;
         } else {

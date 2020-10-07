@@ -74,4 +74,8 @@ public class DistrictDetails {
     protected void update(AutopolyField field) {
         fieldById.computeIfPresent(field.getId(), (id, currentCard) -> field);
     }
+
+    public List<String> getFieldIdsByDistrictId(String districtId) {
+        return new LinkedList<>(fieldIdsByDistrictId.get(districtId));
+    }
 }

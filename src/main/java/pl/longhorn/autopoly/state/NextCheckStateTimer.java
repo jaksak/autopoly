@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class NextCheckStateTimer {
 
-    private static final long CHECK_STATE_SECONDS_INTERVAL = 5;
+    private static final long CHECK_STATE_SECONDS_INTERVAL = 1;
 
     public boolean shouldCheckState(CheckStateHistory checkStateHistory, LocalDateTime currentTime) {
         if (checkStateHistory == null) {

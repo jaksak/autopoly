@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.player;
 
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.board.cqrs.BoardQuery;
-import pl.longhorn.autopoly.board.event.walk.WalkBoardEventFactory;
+import pl.longhorn.autopoly.board.event.definition.walk.WalkBoardEventFactory;
 import pl.longhorn.autopoly.dice.DiceCommand;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.nick.NickQuery;

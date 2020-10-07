@@ -1,4 +1,4 @@
-package pl.longhorn.autopoly.board.event.walk;
+package pl.longhorn.autopoly.board.event.definition.walk;
 
 import lombok.AccessLevel;
 import lombok.Getter;

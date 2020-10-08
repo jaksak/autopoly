@@ -9,8 +9,11 @@ import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
 import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.HouseLvlCommand;
 import pl.longhorn.autopoly.district.field.LockFieldCommand;
+import pl.longhorn.autopoly.district.field.housable.HousableField;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
+import pl.longhorn.autopoly.district.player.PlayerDistrictCommand;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
@@ -21,6 +24,7 @@ import pl.longhorn.autopoly.turn.FinishTurnCommand;
 @RequiredArgsConstructor
 public class AutoActionCommand {
 
+    // TODO: too much responsibility
     private final BoardAccessor boardAccessor;
     private final PlayerInBoardQuery playerInBoardQuery;
     private final NextPlayerQuery nextPlayerQuery;
@@ -32,6 +36,8 @@ public class AutoActionCommand {
     private final LockFieldCommand lockFieldCommand;
     private final PlayerOwnershipQuery playerOwnershipQuery;
     private final FieldQuery fieldQuery;
+    private final PlayerDistrictCommand playerDistrictCommand;
+    private final HouseLvlCommand houseLvlCommand;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -41,6 +47,7 @@ public class AutoActionCommand {
                 shouldContinue = performPossibleEvents();
             }
             unlockAnyField();
+            buildHouse();
             finishTurnCommand.finish();
         }
         return shouldContinue;
@@ -95,10 +102,24 @@ public class AutoActionCommand {
                     .map(field -> (LockableField) field)
                     .filter(LockableField::isLocked)
                     .filter(field -> player.getMoneyAmount() > field.getLockPrice())
-                    .limit(1)
-                    .forEach(field -> lockFieldCommand.unlock(field.getId(), player.getId()));
+                    .findAny()
+                    .ifPresent(field -> lockFieldCommand.unlock(field.getId(), player.getId()));
         }
     }
 
-
+    private void buildHouse() {
+        var optionalPlayer = nextPlayerQuery.get();
+        if (optionalPlayer.isPresent()) {
+            var player = optionalPlayer.get();
+            var playerDistricts = playerDistrictCommand.prepare(player.getId());
+            playerDistricts.getFull().stream()
+                    .flatMap(district -> district.getOwnedFieldIds().stream())
+                    .map(fieldQuery::getField)
+                    .filter(field -> field instanceof HousableField)
+                    .map(field -> (HousableField) field)
+                    .filter(field -> player.getMoneyAmount() > field.getCurrentHousePrice())
+                    .findAny()
+                    .ifPresent(field -> houseLvlCommand.increaseLvl(field.getId(), player.getId()));
+        }
+    }
 }

@@ -118,6 +118,7 @@ public class AutoActionCommand {
                     .filter(field -> field instanceof HousableField)
                     .map(field -> (HousableField) field)
                     .filter(field -> player.getMoneyAmount() > field.getCurrentHousePrice())
+                    .filter(HousableField::shouldIncreaseHouseLvl)
                     .findAny()
                     .ifPresent(field -> houseLvlCommand.increaseLvl(field.getId(), player.getId()));
         }

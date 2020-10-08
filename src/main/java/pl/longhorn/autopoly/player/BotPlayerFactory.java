@@ -10,8 +10,6 @@ import pl.longhorn.autopoly.player.state.WalkPlayerState;
 import pl.longhorn.autopoly.player.type.BotPlayerType;
 import pl.longhorn.autopoly.util.id.IdFactory;
 
-import java.util.List;
-
 @Service
 class BotPlayerFactory {
 
@@ -22,7 +20,7 @@ class BotPlayerFactory {
     private final WalkPlayerState walkPlayerState;
 
     public Player create(String startFieldId) {
-        return new Player(idFactory.generate(), nickQuery.getRandom(), INIT_MONEY_AMOUNT, startFieldId, List.of(), botPlayerType, walkPlayerState, true);
+        return new Player(idFactory.generate(), nickQuery.getRandom(), INIT_MONEY_AMOUNT, startFieldId, botPlayerType, walkPlayerState, true);
     }
 
     BotPlayerFactory(IdFactory idFactory, DiceCommand diceCommand, NickQuery nickQuery, BoardQuery boardQuery, WalkBoardEventFactory walkBoardEventFactory, DistrictDetailsQuery districtDetailsQuery) {

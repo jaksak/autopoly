@@ -10,8 +10,8 @@ import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.FieldQuery;
 import pl.longhorn.autopoly.log.content.PlayerWalkLogContent;
 import pl.longhorn.autopoly.player.Player;
-import pl.longhorn.autopoly.player.PlayerInBoardQuery;
 import pl.longhorn.autopoly.player.UpdatePlayerPositionCommand;
+import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class WalkBoardEvent implements BoardEvent {
@@ -23,7 +23,7 @@ public class WalkBoardEvent implements BoardEvent {
 
     private final FieldQuery fieldQuery;
     private final UpdatePlayerPositionCommand updatePlayerPositionCommand;
-    private final PlayerInBoardQuery playerInBoardQuery;
+    private final FieldOwnershipQuery fieldOwnershipQuery;
 
     @Override
     public BoardActionResult react(Board board, Player player) {
@@ -36,16 +36,8 @@ public class WalkBoardEvent implements BoardEvent {
 
     private AutopolyFieldActionParam prepareParam(Player player) {
         return AutopolyFieldActionParam.builder()
-                .ownerId(getOwnerId())
+                .ownerId(fieldOwnershipQuery.getOwner(fieldId).orElse(null))
                 .player(player)
                 .build();
-    }
-
-    private String getOwnerId() {
-        return playerInBoardQuery.get().getPlayers().stream()
-                .filter(player -> player.getOwnedFieldIds().contains(fieldId))
-                .findAny()
-                .map(Player::getId)
-                .orElse(null);
     }
 }

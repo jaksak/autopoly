@@ -6,6 +6,8 @@ import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.district.field.ResetFieldCommand;
 import pl.longhorn.autopoly.log.BoardLogCommand;
 import pl.longhorn.autopoly.log.content.DeactivatePlayerLogContent;
+import pl.longhorn.autopoly.player.ownership.cqrs.ClearPlayerOwnershipCommand;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 
 import java.util.List;
 
@@ -18,14 +20,16 @@ public class DeactivePlayerCommand {
     private final PlayerRepository playerRepository;
     private final BoardLogCommand boardLogCommand;
     private final BoardQuery boardQuery;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final ClearPlayerOwnershipCommand clearPlayerOwnershipCommand;
 
     public void deactivate(String playerId) {
         var playersInBoard = playerInBoardQuery.get();
         var player = playersInBoard.getPlayerById(playerId);
-        resetAllCard(player.getOwnedFieldIds());
+        resetAllCard(playerOwnershipQuery.get(playerId));
         player.setActive(false);
         player.setCurrentFieldId(null);
-        player.setOwnedFieldIds(List.of());
+        clearPlayerOwnershipCommand.clear(playerId);
         playerRepository.save(playersInBoard);
         inform(playerId);
     }

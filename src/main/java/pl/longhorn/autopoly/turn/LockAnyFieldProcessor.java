@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.field.FieldQuery;
 import pl.longhorn.autopoly.district.field.LockFieldCommand;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
-import pl.longhorn.autopoly.player.Player;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 
 import java.util.Optional;
 
@@ -14,19 +14,20 @@ import java.util.Optional;
 public class LockAnyFieldProcessor {
 
     private final LockFieldCommand lockFieldCommand;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
     private final FieldQuery fieldQuery;
 
-    public boolean tryLockProperty(Player player) {
-        var propertyToLock = getPropertyToLock(player);
+    public boolean tryLockProperty(String playerId) {
+        var propertyToLock = getPropertyToLock(playerId);
         if (propertyToLock.isPresent()) {
-            lockFieldCommand.lock(propertyToLock.get().getId(), player.getId());
+            lockFieldCommand.lock(propertyToLock.get().getId(), playerId);
             return true;
         }
         return false;
     }
 
-    private Optional<LockableField> getPropertyToLock(Player player) {
-        return player.getOwnedFieldIds().stream()
+    private Optional<LockableField> getPropertyToLock(String playerId) {
+        return playerOwnershipQuery.get(playerId).stream()
                 .map(fieldQuery::getField)
                 .filter(field -> field instanceof LockableField)
                 .map(field -> (LockableField) field)

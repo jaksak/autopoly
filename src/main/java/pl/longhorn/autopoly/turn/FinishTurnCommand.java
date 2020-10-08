@@ -38,7 +38,7 @@ public class FinishTurnCommand {
     private void decreaseHouseLvlIfNegativeBalance() {
         var player = nextPlayerQuery.get().orElseThrow();
         while (player.hasNegativeBalance()) {
-            var hasPropertyToDecreaseLvl = decreaseHouseLvlAnyFieldProcessor.tryDecreaseHouseLvl(player);
+            var hasPropertyToDecreaseLvl = decreaseHouseLvlAnyFieldProcessor.tryDecreaseHouseLvl(player.getId());
             if (hasPropertyToDecreaseLvl) {
                 player = nextPlayerQuery.get().orElseThrow();
             } else {
@@ -50,7 +50,7 @@ public class FinishTurnCommand {
     private void lockPropertyIfNegativeBalance() {
         var player = nextPlayerQuery.get().orElseThrow();
         while (player.hasNegativeBalance()) {
-            var hasPropertyToLock = lockAnyFieldProcessor.tryLockProperty(player);
+            var hasPropertyToLock = lockAnyFieldProcessor.tryLockProperty(player.getId());
             if (hasPropertyToLock) {
                 player = nextPlayerQuery.get().orElseThrow();
             } else {

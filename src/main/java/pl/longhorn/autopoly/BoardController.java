@@ -15,7 +15,9 @@ import pl.longhorn.autopoly.log.BoardLogAfterIdQuery;
 import pl.longhorn.autopoly.log.BoardLogQuery;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
+import pl.longhorn.autopoly.player.PlayerView;
 import pl.longhorn.autopoly.player.PlayersQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.state.CheckStateCommand;
 
 import java.util.stream.Collectors;
@@ -32,6 +34,7 @@ public class BoardController {
     private final BoardLogQuery boardLogQuery;
     private final BoardLogAfterIdQuery boardLogAfterIdQuery;
     private final NextPlayerQuery nextPlayerQuery;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
@@ -39,18 +42,29 @@ public class BoardController {
         var logs = logsAfter == null ? boardLogQuery.getByBoardId(boardId) : boardLogAfterIdQuery.getLogByBoardIdAndAfter(boardId, logsAfter);
         return BoardStateView.builder()
                 .logs(logs.stream().map(BoardLog::toView).collect(Collectors.toList()))
-                .players(playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
+                .players(playersQuery.get().stream().map(this::toView).collect(Collectors.toList()))
                 .build();
     }
 
     @GetMapping("config")
     public BoardInitialConfigView getInitConfig() {
         var board = boardAccessor.getBoard();
-            return BoardInitialConfigView.builder()
-                    .boardId(board.getId())
-                    .fields(districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList()))
-                    .players(playersQuery.get().stream().map(Player::toView).collect(Collectors.toList()))
-                    .currentPlayerId(nextPlayerQuery.get().map(Player::getId).orElse(null))
-                    .build();
-        }
+        return BoardInitialConfigView.builder()
+                .boardId(board.getId())
+                .fields(districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList()))
+                .players(playersQuery.get().stream().map(this::toView).collect(Collectors.toList()))
+                .currentPlayerId(nextPlayerQuery.get().map(Player::getId).orElse(null))
+                .build();
+    }
+
+    private PlayerView toView(Player player) {
+        return PlayerView.builder()
+                .id(player.getId())
+                .nick(player.getNick())
+                .moneyAmount(player.getMoneyAmount())
+                .position(player.getCurrentFieldId())
+                .ownedFieldIds(playerOwnershipQuery.get(player.getId()))
+                .isActive(player.isActive())
+                .build();
+    }
 }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.board.event.cqrs.AddBoardEventsCommand;
 import pl.longhorn.autopoly.log.BoardLogCommand;
-import pl.longhorn.autopoly.player.FieldOwnershipUpdateCommand;
 import pl.longhorn.autopoly.player.UpdateMoneyCommand;
+import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipUpdateCommand;
 
 @Service
 @RequiredArgsConstructor

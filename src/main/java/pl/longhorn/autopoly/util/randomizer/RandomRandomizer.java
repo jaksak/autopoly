@@ -11,7 +11,7 @@ class RandomRandomizer implements Randomizer {
 
     @Override
     public int nextInt(int min, int max) {
-        return nextInt(max) + min;
+        return nextInt(max - min) + min;
     }
 
     @Override

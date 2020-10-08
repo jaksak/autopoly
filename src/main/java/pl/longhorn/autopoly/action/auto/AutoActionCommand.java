@@ -8,9 +8,13 @@ import pl.longhorn.autopoly.board.cqrs.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
 import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
+import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.LockFieldCommand;
+import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.turn.FinishTurnCommand;
 
 @Service
@@ -25,6 +29,9 @@ public class AutoActionCommand {
     private final DeleteBoardEventCommand deleteBoardEventCommand;
     private final DeleteBoardCommand deleteBoardCommand;
     private final BoardEventsQuery boardEventsQuery;
+    private final LockFieldCommand lockFieldCommand;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final FieldQuery fieldQuery;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -33,6 +40,7 @@ public class AutoActionCommand {
             if (shouldContinue) {
                 shouldContinue = performPossibleEvents();
             }
+            unlockAnyField();
             finishTurnCommand.finish();
         }
         return shouldContinue;
@@ -74,6 +82,22 @@ public class AutoActionCommand {
             }
         }
         return shouldContinue;
+    }
+
+    private void unlockAnyField() {
+        var optionalPlayer = nextPlayerQuery.get();
+        if (optionalPlayer.isPresent()) {
+            var player = optionalPlayer.get();
+            var playerFieldIds = playerOwnershipQuery.get(player.getId());
+            playerFieldIds.stream()
+                    .map(fieldQuery::getField)
+                    .filter(field -> field instanceof LockableField)
+                    .map(field -> (LockableField) field)
+                    .filter(LockableField::isLocked)
+                    .filter(field -> player.getMoneyAmount() > field.getLockPrice())
+                    .limit(1)
+                    .forEach(field -> lockFieldCommand.unlock(field.getId(), player.getId()));
+        }
     }
 
 

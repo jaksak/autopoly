@@ -35,4 +35,21 @@ public class LockFieldCommand {
             throw new IllegalArgumentException();
         }
     }
+
+    public void unlock(String fieldId, String ownerId) {
+        var field = fieldQuery.getField(fieldId);
+        if (field instanceof LockableField) {
+            var lockableField = (LockableField) field;
+            if (!lockableField.isLocked()) {
+                var unlockedField = lockableField.unlock();
+                fieldService.update(unlockedField);
+                updateMoneyCommand.updateMoney(ownerId, -unlockedField.getLockPrice());
+                boardLogCommand.add(new FieldUpdateLogContent(unlockedField.toView()), boardQuery.get().getId());
+            } else {
+                throw new IllegalArgumentException();
+            }
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 }

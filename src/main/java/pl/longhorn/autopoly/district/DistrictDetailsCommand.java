@@ -8,6 +8,8 @@ import pl.longhorn.autopoly.district.field.definition.station.StationFieldComman
 import pl.longhorn.autopoly.district.field.definition.street.SequenceStreetFieldCommand;
 import pl.longhorn.autopoly.district.unique.UniqueStreetNameProvider;
 import pl.longhorn.autopoly.name.street.RandomStreetNameQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.util.id.IdFactory;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
@@ -20,20 +22,26 @@ public class DistrictDetailsCommand {
     private final Randomizer randomizer;
     private final UniqueStreetNameProvider uniqueStreetNameProvider;
     private final StationFieldCommand stationFieldCommand;
+    private final DistrictDetailsQuery districtDetailsQuery;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final FieldOwnershipQuery fieldOwnershipQuery;
 
-    public DistrictDetailsCommand(DistrictRepository districtRepository, IdFactory idFactory, RandomStreetNameQuery randomStreetNameQuery, StartFieldCommand startFieldCommand, Randomizer randomizer, StationFieldCommand stationFieldCommand) {
+    public DistrictDetailsCommand(DistrictRepository districtRepository, IdFactory idFactory, RandomStreetNameQuery randomStreetNameQuery, StartFieldCommand startFieldCommand, Randomizer randomizer, StationFieldCommand stationFieldCommand, DistrictDetailsQuery districtDetailsQuery, PlayerOwnershipQuery playerOwnershipQuery, FieldOwnershipQuery fieldOwnershipQuery) {
         this.districtRepository = districtRepository;
         this.idFactory = idFactory;
         this.startFieldCommand = startFieldCommand;
         this.randomizer = randomizer;
         this.uniqueStreetNameProvider = new UniqueStreetNameProvider(randomStreetNameQuery);
         this.stationFieldCommand = stationFieldCommand;
+        this.districtDetailsQuery = districtDetailsQuery;
+        this.playerOwnershipQuery = playerOwnershipQuery;
+        this.fieldOwnershipQuery = fieldOwnershipQuery;
     }
 
     public DistrictDetails prepareFields() {
         DistrictDetails districtDetails = new DistrictDetails(startFieldCommand.prepare());
 
-        SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer);
+        SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         EmptyFieldCommand emptyFieldCommand = new EmptyFieldCommand(idFactory);
 
         // 1

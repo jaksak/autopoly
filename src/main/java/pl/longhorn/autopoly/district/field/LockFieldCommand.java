@@ -40,7 +40,7 @@ public class LockFieldCommand {
         var field = fieldQuery.getField(fieldId);
         if (field instanceof LockableField) {
             var lockableField = (LockableField) field;
-            if (!lockableField.isLocked()) {
+            if (lockableField.isLocked()) {
                 var unlockedField = lockableField.unlock();
                 fieldService.update(unlockedField);
                 updateMoneyCommand.updateMoney(ownerId, -unlockedField.getLockPrice());

@@ -3,6 +3,7 @@ package pl.longhorn.autopoly.district;
 import lombok.Getter;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.FieldInfiniteIterator;
+import pl.longhorn.autopoly.district.field.definition.station.StationField;
 import pl.longhorn.autopoly.district.field.definition.street.StreetField;
 import pl.longhorn.autopoly.district.field.districted.DistrictedField;
 
@@ -77,5 +78,12 @@ public class DistrictDetails {
 
     public List<String> getFieldIdsByDistrictId(String districtId) {
         return new LinkedList<>(fieldIdsByDistrictId.get(districtId));
+    }
+
+    public List<String> getStationFieldIds() {
+        return fieldById.values().stream()
+                .filter(field -> field instanceof StationField)
+                .map(AutopolyField::getId)
+                .collect(Collectors.toList());
     }
 }

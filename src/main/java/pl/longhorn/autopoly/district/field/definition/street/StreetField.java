@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.action.result.BoardActionResult;
+import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
@@ -13,6 +14,8 @@ import pl.longhorn.autopoly.district.field.housable.IllegalHouseLvlOperationExce
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
 import pl.longhorn.autopoly.district.field.rentable.RentableParam;
+import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -26,6 +29,11 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
     private final int initialRentPrice;
     private final int houseLvl;
     private final boolean isLocked;
+
+    // TODO: split to processor!
+    private final DistrictDetailsQuery districtDetailsQuery;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final FieldOwnershipQuery fieldOwnershipQuery;
 
     @Override
     public AutopolyFieldDetailsView toView() {
@@ -49,11 +57,30 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
 
     @Override
     public AutopolyField reset() {
-        return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, 0, false);
+        return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, 0, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
     }
 
     public int getRentPrice() {
-        return initialRentPrice + (priceToBuy / 100 + 10 * houseLvl);
+        return initialRentPrice + (priceToBuy / 100 + 10 * houseLvl) + addBonusForFullDistrict();
+    }
+
+    private int addBonusForFullDistrict() {
+        if (hasFullDistrict()) {
+            return 50;
+        } else {
+            return 0;
+        }
+    }
+
+    private boolean hasFullDistrict() {
+        var playerId = fieldOwnershipQuery.getOwner(id);
+        if (playerId.isPresent()) {
+            var playerFieldIds = playerOwnershipQuery.get(playerId.get());
+            var fieldIdsInDistrict = districtDetailsQuery.get().getFieldIdsByDistrictId(districtId);
+            return playerFieldIds.containsAll(fieldIdsInDistrict);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -89,7 +116,7 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
     @Override
     public HousableField increaseHouseLvl() throws IllegalHouseLvlOperationException {
         if (shouldIncreaseHouseLvl()) {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl + 1, isLocked);
+            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl + 1, isLocked, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {
             throw new IllegalHouseLvlOperationException();
         }
@@ -98,7 +125,7 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
     @Override
     public HousableField decreaseHouseLvl() throws IllegalHouseLvlOperationException {
         if (shouldDecreaseHouseLvl()) {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl - 1, isLocked);
+            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl - 1, isLocked, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {
             throw new IllegalHouseLvlOperationException();
         }
@@ -119,14 +146,14 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
         if (isLocked) {
             throw new IllegalStateException();
         } else {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, true);
+            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, true, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         }
     }
 
     @Override
     public LockableField unlock() throws IllegalStateException {
         if (isLocked) {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, false);
+            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {
             throw new IllegalStateException();
         }

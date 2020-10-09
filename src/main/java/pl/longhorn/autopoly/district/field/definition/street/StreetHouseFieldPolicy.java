@@ -4,6 +4,10 @@ import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperationException;
 
 public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
+
+    private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
+    private static final int MAX_HOUSE_LVL = 5;
+
     @Override
     public boolean shouldHasHouse() {
         return true;
@@ -11,27 +15,27 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     @Override
     public boolean shouldIncreaseHouseLvl(StreetField field) {
-        return field.shouldIncreaseHouseLvl();
+        return field.getHouseLvl() < MAX_HOUSE_LVL && !field.isLocked();
     }
 
     @Override
     public boolean shouldDecreaseHouseLvl(StreetField field) {
-        return field.shouldDecreaseHouseLvl();
+        return field.getHouseLvl() > 0;
     }
 
     @Override
     public int getHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.getHousePrice();
+        return field.getPriceToBuy() / 100 + 100;
     }
 
     @Override
     public int getHotelPrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.getHotelPrice();
+        return getHousePrice(field) + 50;
     }
 
     @Override
     public int getCurrentHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.getCurrentHousePrice();
+        return getHouseLvl(field) <= MAX_HOUSES_WITHOUT_HOTEL ? getHotelPrice(field) : getHousePrice(field);
     }
 
     @Override
@@ -41,11 +45,23 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     @Override
     public StreetField increaseHouseLvl(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.increaseHouseLvl();
+        if (shouldIncreaseHouseLvl(field)) {
+            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
+                    field.getHouseLvl() + 1, field.isLocked(), field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
+                    field.getFieldOwnershipQuery());
+        } else {
+            throw new IllegalHouseLvlOperationException();
+        }
     }
 
     @Override
     public StreetField decreaseHouseLvl(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.decreaseHouseLvl();
+        if (shouldDecreaseHouseLvl(field)) {
+            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
+                    field.getHouseLvl() - 1, field.isLocked(), field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
+                    field.getFieldOwnershipQuery());
+        } else {
+            throw new IllegalHouseLvlOperationException();
+        }
     }
 }

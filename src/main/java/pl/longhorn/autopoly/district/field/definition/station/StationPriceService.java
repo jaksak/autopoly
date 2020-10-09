@@ -19,8 +19,8 @@ public class StationPriceService {
     }
 
     public int getRentPrice(StationField field) {
-        int otherPlayerStationAmount = getPlayerStationAmount(fieldOwnershipQuery.getOwner(field.getId()).orElseThrow());
-        return field.getRentPrice(otherPlayerStationAmount);
+        int playerStationAmount = fieldOwnershipQuery.getOwner(field.getId()).map(this::getPlayerStationAmount).orElse(1);
+        return field.getRentPrice(playerStationAmount);
     }
 
     private int getPlayerStationAmount(String playerId) {

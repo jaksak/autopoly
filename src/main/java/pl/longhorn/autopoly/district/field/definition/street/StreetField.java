@@ -20,8 +20,8 @@ import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class StreetField implements DistrictedField, HousableField, LockableField {
-    private static final int HOUSES_TO_HOTEL = 3;
-    private static final int MAX_HOUSE_LVL = 4;
+    private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
+    private static final int MAX_HOUSE_LVL = 5;
     private final String id;
     private final String districtId;
     private final String name;
@@ -95,7 +95,7 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
 
     @Override
     public int getCurrentHousePrice() {
-        return HOUSES_TO_HOTEL >= houseLvl ? getHotelPrice() : getHousePrice();
+        return houseLvl <= MAX_HOUSES_WITHOUT_HOTEL ? getHotelPrice() : getHousePrice();
     }
 
     @Override

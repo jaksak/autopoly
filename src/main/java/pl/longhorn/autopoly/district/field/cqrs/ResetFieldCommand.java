@@ -17,7 +17,7 @@ public class ResetFieldCommand {
     private final BoardLogCommand boardLogCommand;
 
     public void reset(String fieldId) {
-        var field = fieldQuery.getField(fieldId);
+        var field = fieldQuery.get(fieldId);
         var fieldAfterReset = field.reset();
         fieldService.update(fieldAfterReset);
         boardLogCommand.add(new FieldUpdateLogContent(fieldAfterReset.toView()), boardQuery.get().getId());

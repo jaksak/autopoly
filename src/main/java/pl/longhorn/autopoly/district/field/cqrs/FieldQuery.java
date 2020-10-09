@@ -11,7 +11,7 @@ public class FieldQuery {
 
     private final DistrictDetailsQuery districtDetailsQuery;
 
-    public AutopolyField getField(String fieldId) {
+    public AutopolyField get(String fieldId) {
         return districtDetailsQuery.get().getFieldById(fieldId);
     }
 }

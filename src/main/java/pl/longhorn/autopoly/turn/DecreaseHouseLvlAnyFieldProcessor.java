@@ -2,11 +2,15 @@ package pl.longhorn.autopoly.turn;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.cqrs.DecreaseHouseLvlCommand;
 import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
-import pl.longhorn.autopoly.district.field.housable.HousableField;
+import pl.longhorn.autopoly.district.field.cqrs.HouseFieldPolicyQuery;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
+import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +20,8 @@ public class DecreaseHouseLvlAnyFieldProcessor {
     private final FieldQuery fieldQuery;
     private final PlayerOwnershipQuery playerOwnershipQuery;
     private final DecreaseHouseLvlCommand decreaseHouseLvlCommand;
+    private final HouseFieldPolicyQuery houseFieldPolicyQuery;
+    private final Randomizer randomizer;
 
     public boolean tryDecreaseHouseLvl(String playerId) {
         var propertyToDecreaseLvl = getPropertyToDecreaseLvl(playerId);
@@ -26,12 +32,15 @@ public class DecreaseHouseLvlAnyFieldProcessor {
         return false;
     }
 
-    private Optional<HousableField> getPropertyToDecreaseLvl(String playerId) {
-        return playerOwnershipQuery.get(playerId).stream()
-                .map(fieldQuery::getField)
-                .filter(field -> field instanceof HousableField)
-                .map(field -> (HousableField) field)
-                .filter(HousableField::shouldDecreaseHouseLvl)
-                .findAny();
+    private Optional<AutopolyField> getPropertyToDecreaseLvl(String playerId) {
+        List<AutopolyField> propertiesToDecreaseLvl = new LinkedList<>();
+        for (String fieldId : playerOwnershipQuery.get(playerId)) {
+            var field = fieldQuery.get(fieldId);
+            var housePolicy = houseFieldPolicyQuery.get(field);
+            if (housePolicy.shouldDecreaseHouseLvl(field)) {
+                propertiesToDecreaseLvl.add(field);
+            }
+        }
+        return randomizer.getRandom(propertiesToDecreaseLvl);
     }
 }

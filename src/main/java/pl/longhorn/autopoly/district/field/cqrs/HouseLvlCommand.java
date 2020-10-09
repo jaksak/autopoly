@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.district.FieldService;
-import pl.longhorn.autopoly.district.field.housable.HousableField;
+import pl.longhorn.autopoly.district.field.policy.FieldPolicyFactory;
 import pl.longhorn.autopoly.log.BoardLogCommand;
 import pl.longhorn.autopoly.log.content.FieldUpdateLogContent;
 import pl.longhorn.autopoly.player.UpdateMoneyCommand;
@@ -18,19 +18,17 @@ public class HouseLvlCommand {
     private final UpdateMoneyCommand updateMoneyCommand;
     private final BoardQuery boardQuery;
     private final BoardLogCommand boardLogCommand;
+    private final FieldPolicyFactory fieldPolicyFactory;
 
-    public void increaseLvl(String fieldId, String founder) {
-        var field = fieldQuery.getField(fieldId);
-        if (field instanceof HousableField) {
-            var housableField = (HousableField) field;
-            if (housableField.shouldIncreaseHouseLvl()) {
-                var changedField = housableField.increaseHouseLvl();
-                fieldService.update(changedField);
-                updateMoneyCommand.updateMoney(founder, -housableField.getCurrentHousePrice());
-                boardLogCommand.add(new FieldUpdateLogContent(changedField.toView()), boardQuery.get().getId());
-            } else {
-                throw new IllegalArgumentException();
-            }
+    public void increaseLvl(String fieldId, String founderId) {
+        var field = fieldQuery.get(fieldId);
+        var housePolicy = fieldPolicyFactory.getPolicy(field).getHouseFieldPolicy();
+        if (housePolicy.shouldIncreaseHouseLvl(field)) {
+            int price = housePolicy.getCurrentHousePrice(field);
+            var changedField = housePolicy.increaseHouseLvl(field);
+            fieldService.update(changedField);
+            updateMoneyCommand.updateMoney(founderId, -price);
+            boardLogCommand.add(new FieldUpdateLogContent(changedField.toView()), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }

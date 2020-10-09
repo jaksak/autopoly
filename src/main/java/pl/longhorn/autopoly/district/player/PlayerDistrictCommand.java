@@ -22,7 +22,7 @@ public class PlayerDistrictCommand {
         PlayerDistricts playerDistricts = new PlayerDistricts();
         DistrictDetails districtDetails = districtDetailsQuery.get();
         for (String fieldId : playerOwnershipQuery.get(playerId)) {
-            AutopolyField field = fieldQuery.getField(fieldId);
+            AutopolyField field = fieldQuery.get(fieldId);
             var districtPolicy = districtionFieldPolicyQuery.get(field);
             if (districtPolicy.hasAssignedDistrict()) {
                 String districtId = districtPolicy.getDistrictId(field);

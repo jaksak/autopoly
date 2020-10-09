@@ -20,7 +20,7 @@ public class LockFieldCommand {
     private final BoardLogCommand boardLogCommand;
 
     public void lock(String fieldId, String ownerId) {
-        var field = fieldQuery.getField(fieldId);
+        var field = fieldQuery.get(fieldId);
         if (field instanceof LockableField) {
             var lockableField = (LockableField) field;
             if (lockableField.shouldLock()) {
@@ -37,7 +37,7 @@ public class LockFieldCommand {
     }
 
     public void unlock(String fieldId, String ownerId) {
-        var field = fieldQuery.getField(fieldId);
+        var field = fieldQuery.get(fieldId);
         if (field instanceof LockableField) {
             var lockableField = (LockableField) field;
             if (lockableField.isLocked()) {

@@ -28,7 +28,7 @@ public class WalkBoardEvent implements BoardEvent {
     @Override
     public BoardActionResult react(Board board, Player player) {
         updatePlayerPositionCommand.update(playerId, fieldId);
-        var field = fieldQuery.getField(fieldId);
+        var field = fieldQuery.get(fieldId);
         return field.afterPlayerStay(prepareParam(player)).toBuilder()
                 .log(new PlayerWalkLogContent(playerId, fieldId))
                 .build();

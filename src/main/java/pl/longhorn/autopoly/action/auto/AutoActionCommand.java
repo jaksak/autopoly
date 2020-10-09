@@ -8,17 +8,24 @@ import pl.longhorn.autopoly.board.cqrs.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
 import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
+import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.HouseFieldPolicyQuery;
 import pl.longhorn.autopoly.district.field.cqrs.HouseLvlCommand;
 import pl.longhorn.autopoly.district.field.cqrs.LockFieldCommand;
-import pl.longhorn.autopoly.district.field.housable.HousableField;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
+import pl.longhorn.autopoly.district.player.PlayerDistrict;
 import pl.longhorn.autopoly.district.player.PlayerDistrictCommand;
+import pl.longhorn.autopoly.district.player.PlayerDistricts;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.turn.FinishTurnCommand;
+import pl.longhorn.autopoly.util.randomizer.Randomizer;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +45,8 @@ public class AutoActionCommand {
     private final FieldQuery fieldQuery;
     private final PlayerDistrictCommand playerDistrictCommand;
     private final HouseLvlCommand houseLvlCommand;
+    private final HouseFieldPolicyQuery houseFieldPolicyQuery;
+    private final Randomizer randomizer;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -97,7 +106,7 @@ public class AutoActionCommand {
             var player = optionalPlayer.get();
             var playerFieldIds = playerOwnershipQuery.get(player.getId());
             playerFieldIds.stream()
-                    .map(fieldQuery::getField)
+                    .map(fieldQuery::get)
                     .filter(field -> field instanceof LockableField)
                     .map(field -> (LockableField) field)
                     .filter(LockableField::isLocked)
@@ -112,15 +121,22 @@ public class AutoActionCommand {
         if (optionalPlayer.isPresent()) {
             var player = optionalPlayer.get();
             var playerDistricts = playerDistrictCommand.prepare(player.getId());
-            playerDistricts.getFull().stream()
-                    .flatMap(district -> district.getOwnedFieldIds().stream())
-                    .map(fieldQuery::getField)
-                    .filter(field -> field instanceof HousableField)
-                    .map(field -> (HousableField) field)
-                    .filter(field -> player.getMoneyAmount() > field.getCurrentHousePrice())
-                    .filter(HousableField::shouldIncreaseHouseLvl)
-                    .findAny()
-                    .ifPresent(field -> houseLvlCommand.increaseLvl(field.getId(), player.getId()));
+            List<AutopolyField> availableFieldToBuildHouse = getAvailableFieldToBuildHouse(playerDistricts, player);
+            randomizer.getRandom(availableFieldToBuildHouse).ifPresent(field -> houseLvlCommand.increaseLvl(field.getId(), player.getId()));
         }
+    }
+
+    private List<AutopolyField> getAvailableFieldToBuildHouse(PlayerDistricts playerDistricts, Player player) {
+        List<AutopolyField> availableFieldToBuildHouse = new LinkedList<>();
+        for (PlayerDistrict playerDistrict : playerDistricts.getFull()) {
+            for (String fieldId : playerDistrict.getOwnedFieldIds()) {
+                AutopolyField field = fieldQuery.get(fieldId);
+                var housePolicy = houseFieldPolicyQuery.get(field);
+                if (housePolicy.shouldIncreaseHouseLvl(field) && player.getMoneyAmount() > housePolicy.getCurrentHousePrice(field)) {
+                    availableFieldToBuildHouse.add(field);
+                }
+            }
+        }
+        return availableFieldToBuildHouse;
     }
 }

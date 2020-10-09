@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.board.cqrs.BoardQuery;
 import pl.longhorn.autopoly.district.FieldService;
-import pl.longhorn.autopoly.district.field.housable.HousableField;
+import pl.longhorn.autopoly.district.field.policy.FieldPolicyFactory;
 import pl.longhorn.autopoly.log.BoardLogCommand;
 import pl.longhorn.autopoly.log.content.FieldUpdateLogContent;
 import pl.longhorn.autopoly.player.UpdateMoneyCommand;
@@ -18,19 +18,16 @@ public class DecreaseHouseLvlCommand {
     private final UpdateMoneyCommand updateMoneyCommand;
     private final BoardQuery boardQuery;
     private final BoardLogCommand boardLogCommand;
+    private final FieldPolicyFactory fieldPolicyFactory;
 
     public void decreaseHouseLvl(String fieldId, String ownerId) {
-        var field = fieldQuery.getField(fieldId);
-        if (field instanceof HousableField) {
-            var housableField = (HousableField) field;
-            if (housableField.shouldDecreaseHouseLvl()) {
-                var afterUpdateField = housableField.decreaseHouseLvl();
-                fieldService.update(afterUpdateField);
-                updateMoneyCommand.updateMoney(ownerId, afterUpdateField.getCurrentHousePrice());
-                boardLogCommand.add(new FieldUpdateLogContent(afterUpdateField.toView()), boardQuery.get().getId());
-            } else {
-                throw new IllegalArgumentException();
-            }
+        var field = fieldQuery.get(fieldId);
+        var housePolicy = fieldPolicyFactory.getPolicy(field).getHouseFieldPolicy();
+        if (housePolicy.shouldDecreaseHouseLvl(field)) {
+            var afterUpdateField = housePolicy.decreaseHouseLvl(field);
+            fieldService.update(afterUpdateField);
+            updateMoneyCommand.updateMoney(ownerId, housePolicy.getCurrentHousePrice(afterUpdateField));
+            boardLogCommand.add(new FieldUpdateLogContent(afterUpdateField.toView()), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }

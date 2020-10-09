@@ -28,7 +28,7 @@ public class LockAnyFieldProcessor {
 
     private Optional<LockableField> getPropertyToLock(String playerId) {
         return playerOwnershipQuery.get(playerId).stream()
-                .map(fieldQuery::getField)
+                .map(fieldQuery::get)
                 .filter(field -> field instanceof LockableField)
                 .map(field -> (LockableField) field)
                 .filter(LockableField::shouldLock)

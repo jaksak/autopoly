@@ -9,9 +9,8 @@ import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
-import pl.longhorn.autopoly.district.field.housable.HousableField;
-import pl.longhorn.autopoly.district.field.housable.IllegalHouseLvlOperationException;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
+import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperationException;
 import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
 import pl.longhorn.autopoly.district.field.rentable.RentableParam;
 import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
@@ -20,7 +19,7 @@ import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 @Getter
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StreetField implements HousableField, LockableField {
+public class StreetField implements LockableField {
     private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
     private static final int MAX_HOUSE_LVL = 5;
     private final String id;
@@ -84,38 +83,31 @@ public class StreetField implements HousableField, LockableField {
         }
     }
 
-    @Override
     public int getHousePrice() {
         return priceToBuy / 100 + 100;
     }
 
-    @Override
     public int getHotelPrice() {
         return getHousePrice() + 50;
     }
 
-    @Override
     public int getCurrentHousePrice() {
         return houseLvl <= MAX_HOUSES_WITHOUT_HOTEL ? getHotelPrice() : getHousePrice();
     }
 
-    @Override
     public int getHouseLvl() {
         return houseLvl;
     }
 
-    @Override
     public boolean shouldIncreaseHouseLvl() {
         return houseLvl < MAX_HOUSE_LVL && !isLocked;
     }
 
-    @Override
     public boolean shouldDecreaseHouseLvl() {
         return houseLvl > 0;
     }
 
-    @Override
-    public HousableField increaseHouseLvl() throws IllegalHouseLvlOperationException {
+    public StreetField increaseHouseLvl() throws IllegalHouseLvlOperationException {
         if (shouldIncreaseHouseLvl()) {
             return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl + 1, isLocked, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {
@@ -123,8 +115,7 @@ public class StreetField implements HousableField, LockableField {
         }
     }
 
-    @Override
-    public HousableField decreaseHouseLvl() throws IllegalHouseLvlOperationException {
+    public StreetField decreaseHouseLvl() throws IllegalHouseLvlOperationException {
         if (shouldDecreaseHouseLvl()) {
             return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl - 1, isLocked, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {

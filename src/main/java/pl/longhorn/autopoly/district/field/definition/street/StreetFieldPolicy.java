@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.longhorn.autopoly.district.field.policy.FieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.distriction.DistrictionFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 
 @Component
 @RequiredArgsConstructor
 public class StreetFieldPolicy implements FieldPolicy<StreetField> {
 
-    private final StreetDistrictionFieldPolicy streetDistrictionFieldPolicy = new StreetDistrictionFieldPolicy();
+    private final StreetDistrictionFieldPolicy districtionFieldPolicy = new StreetDistrictionFieldPolicy();
+    private final StreetHouseFieldPolicy houseFieldPolicy = new StreetHouseFieldPolicy();
 
     @Override
     public Class<StreetField> getFieldClass() {
@@ -18,6 +20,11 @@ public class StreetFieldPolicy implements FieldPolicy<StreetField> {
 
     @Override
     public DistrictionFieldPolicy<StreetField> getDistrictionFieldPolicy() {
-        return streetDistrictionFieldPolicy;
+        return districtionFieldPolicy;
+    }
+
+    @Override
+    public HouseFieldPolicy<StreetField> getHouseFieldPolicy() {
+        return houseFieldPolicy;
     }
 }

@@ -33,4 +33,17 @@ public class HouseLvlCommand {
             throw new IllegalArgumentException();
         }
     }
+
+    public void decreaseHouseLvl(String fieldId, String ownerId) {
+        var field = fieldQuery.get(fieldId);
+        var housePolicy = fieldPolicyFactory.getPolicy(field).getHouseFieldPolicy();
+        if (housePolicy.shouldDecreaseHouseLvl(field)) {
+            var afterUpdateField = housePolicy.decreaseHouseLvl(field);
+            fieldService.update(afterUpdateField);
+            updateMoneyCommand.updateMoney(ownerId, housePolicy.getCurrentHousePrice(afterUpdateField));
+            boardLogCommand.add(new FieldUpdateLogContent(afterUpdateField.toView()), boardQuery.get().getId());
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 }

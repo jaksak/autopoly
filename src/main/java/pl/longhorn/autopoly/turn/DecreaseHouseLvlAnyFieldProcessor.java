@@ -3,9 +3,9 @@ package pl.longhorn.autopoly.turn;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.field.AutopolyField;
-import pl.longhorn.autopoly.district.field.cqrs.DecreaseHouseLvlCommand;
 import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.district.field.cqrs.HouseFieldPolicyQuery;
+import pl.longhorn.autopoly.district.field.cqrs.HouseLvlCommand;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
@@ -19,14 +19,14 @@ public class DecreaseHouseLvlAnyFieldProcessor {
 
     private final FieldQuery fieldQuery;
     private final PlayerOwnershipQuery playerOwnershipQuery;
-    private final DecreaseHouseLvlCommand decreaseHouseLvlCommand;
+    private final HouseLvlCommand houseLvlCommand;
     private final HouseFieldPolicyQuery houseFieldPolicyQuery;
     private final Randomizer randomizer;
 
     public boolean tryDecreaseHouseLvl(String playerId) {
         var propertyToDecreaseLvl = getPropertyToDecreaseLvl(playerId);
         if (propertyToDecreaseLvl.isPresent()) {
-            decreaseHouseLvlCommand.decreaseHouseLvl(propertyToDecreaseLvl.get().getId(), playerId);
+            houseLvlCommand.decreaseHouseLvl(propertyToDecreaseLvl.get().getId(), playerId);
             return true;
         }
         return false;

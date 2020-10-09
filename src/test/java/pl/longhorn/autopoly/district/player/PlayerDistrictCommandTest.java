@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.longhorn.autopoly.district.DistrictDetails;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
-import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.district.field.definition.start.FakeStartFieldFactory;
 import pl.longhorn.autopoly.district.field.definition.street.FakeStreetFieldFactory;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;

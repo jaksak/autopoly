@@ -2,7 +2,7 @@ package pl.longhorn.autopoly.board.event.definition.walk;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.player.UpdatePlayerPositionCommand;
 import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
 import pl.longhorn.autopoly.util.id.IdFactory;

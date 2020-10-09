@@ -2,8 +2,8 @@ package pl.longhorn.autopoly.turn;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.district.field.DecreaseHouseLvlCommand;
-import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.DecreaseHouseLvlCommand;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.district.field.housable.HousableField;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 

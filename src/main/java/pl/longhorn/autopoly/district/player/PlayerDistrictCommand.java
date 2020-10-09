@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.DistrictDetails;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
-import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.district.field.districted.DistrictedField;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 

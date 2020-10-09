@@ -2,8 +2,8 @@ package pl.longhorn.autopoly.turn;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.district.field.FieldQuery;
-import pl.longhorn.autopoly.district.field.LockFieldCommand;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.LockFieldCommand;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 

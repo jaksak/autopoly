@@ -7,7 +7,7 @@ import pl.longhorn.autopoly.action.result.BoardActionResult;
 import pl.longhorn.autopoly.board.Board;
 import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
-import pl.longhorn.autopoly.district.field.FieldQuery;
+import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.log.content.PlayerWalkLogContent;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.UpdatePlayerPositionCommand;

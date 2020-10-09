@@ -1,6 +1,7 @@
 package pl.longhorn.autopoly.district.field.definition.street;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.action.result.BoardActionResult;
@@ -8,7 +9,6 @@ import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
-import pl.longhorn.autopoly.district.field.districted.DistrictedField;
 import pl.longhorn.autopoly.district.field.housable.HousableField;
 import pl.longhorn.autopoly.district.field.housable.IllegalHouseLvlOperationException;
 import pl.longhorn.autopoly.district.field.lockable.LockableField;
@@ -18,8 +18,9 @@ import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 
 @Getter
+@EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StreetField implements DistrictedField, HousableField, LockableField {
+public class StreetField implements HousableField, LockableField {
     private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
     private static final int MAX_HOUSE_LVL = 5;
     private final String id;

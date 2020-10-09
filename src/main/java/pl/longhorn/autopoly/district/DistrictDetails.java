@@ -5,7 +5,6 @@ import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.FieldInfiniteIterator;
 import pl.longhorn.autopoly.district.field.definition.station.StationField;
 import pl.longhorn.autopoly.district.field.definition.street.StreetField;
-import pl.longhorn.autopoly.district.field.districted.DistrictedField;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -19,26 +18,17 @@ public class DistrictDetails {
     @Getter
     private final String initFieldId;
 
-    public void add(AutopolyField field) {
-        if (field instanceof DistrictedField) {
-            DistrictedField districtedField = (DistrictedField) field;
-            addDistricted(districtedField);
-        } else {
-            addNoDistricted(field);
-        }
-    }
-
-    private void addNoDistricted(AutopolyField field) {
+    public void addNoDistricted(AutopolyField field) {
         String fieldId = field.getId();
         fieldById.put(fieldId, field);
         fieldIdByBoardOrder.add(fieldId);
     }
 
-    private void addDistricted(DistrictedField districtedField) {
+    public void addDistricted(AutopolyField districtedField, String districtId) {
         addNoDistricted(districtedField);
-        var fieldsInTheSameDistrict = getFieldsInDistrict(districtedField.getDistrictId());
+        var fieldsInTheSameDistrict = getFieldsInDistrict(districtId);
         fieldsInTheSameDistrict.add(districtedField.getId());
-        fieldIdsByDistrictId.put(districtedField.getDistrictId(), fieldsInTheSameDistrict);
+        fieldIdsByDistrictId.put(districtId, fieldsInTheSameDistrict);
     }
 
     private List<String> getFieldsInDistrict(String districtId) {

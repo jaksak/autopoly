@@ -1,7 +1,5 @@
 package pl.longhorn.autopoly.district.player;
 
-import pl.longhorn.autopoly.district.field.districted.DistrictedField;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +8,10 @@ import java.util.stream.Collectors;
 public class PlayerDistricts {
     private final Map<String, PlayerDistrict> districtsById = new HashMap<>();
 
-    public void add(DistrictedField districtedField, List<String> fieldIdsByDistrictId) {
-        var playerDistrict = districtsById.getOrDefault(districtedField.getDistrictId(), new PlayerDistrict(districtedField.getDistrictId(), fieldIdsByDistrictId));
-        playerDistrict.addOwned(districtedField);
-        districtsById.put(districtedField.getDistrictId(), playerDistrict);
+    protected void addFieldWith(String fieldId, String districtId, List<String> fieldIdsWithTheSameDistrict) {
+        var playerDistrict = districtsById.getOrDefault(districtId, new PlayerDistrict(districtId, fieldIdsWithTheSameDistrict));
+        playerDistrict.addOwned(fieldId);
+        districtsById.put(districtId, playerDistrict);
     }
 
     public List<PlayerDistrict> getFull() {

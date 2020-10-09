@@ -1,0 +1,44 @@
+package pl.longhorn.autopoly.district.field.definition.station;
+
+import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
+
+public class StationLockFieldPolicy implements LockFieldPolicy<StationField> {
+    @Override
+    public boolean shouldLock(StationField field) {
+        return !field.isLocked();
+    }
+
+    @Override
+    public boolean shouldUnlock(StationField field) {
+        return field.isLocked();
+    }
+
+    @Override
+    // TODO: to remove?
+    public boolean isLocked(StationField field) {
+        return field.isLocked();
+    }
+
+    @Override
+    public int getLockPrice(StationField field) throws IllegalStateException {
+        return field.getLockPrice();
+    }
+
+    @Override
+    public StationField lock(StationField field) throws IllegalStateException {
+        if (field.isLocked()) {
+            throw new IllegalStateException();
+        } else {
+            return new StationField(field.getId(), field.getName(), true, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(), field.getFieldOwnershipQuery());
+        }
+    }
+
+    @Override
+    public StationField unlock(StationField field) throws IllegalStateException {
+        if (!field.isLocked()) {
+            throw new IllegalStateException();
+        } else {
+            return new StationField(field.getId(), field.getName(), false, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(), field.getFieldOwnershipQuery());
+        }
+    }
+}

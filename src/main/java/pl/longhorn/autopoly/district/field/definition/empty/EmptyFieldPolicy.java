@@ -7,6 +7,8 @@ import pl.longhorn.autopoly.district.field.policy.distriction.DistrictionFieldPo
 import pl.longhorn.autopoly.district.field.policy.distriction.NoDistrictionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.NoHouseFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.lock.NoLockFieldPolicy;
 
 @Component
 @RequiredArgsConstructor
@@ -14,6 +16,7 @@ public class EmptyFieldPolicy implements FieldPolicy<EmptyField> {
 
     private final NoDistrictionFieldPolicy<EmptyField> noDistrictionFieldPolicy;
     private final NoHouseFieldPolicy<EmptyField> noHouseFieldPolicy;
+    private final NoLockFieldPolicy<EmptyField> noLockFieldPolicy;
 
     @Override
     public Class<EmptyField> getFieldClass() {
@@ -28,5 +31,10 @@ public class EmptyFieldPolicy implements FieldPolicy<EmptyField> {
     @Override
     public HouseFieldPolicy<EmptyField> getHouseFieldPolicy() {
         return noHouseFieldPolicy;
+    }
+
+    @Override
+    public LockFieldPolicy<EmptyField> getLockFieldPolicy() {
+        return noLockFieldPolicy;
     }
 }

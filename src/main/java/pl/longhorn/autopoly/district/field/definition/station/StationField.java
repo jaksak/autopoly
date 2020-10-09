@@ -8,7 +8,6 @@ import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
-import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
 import pl.longhorn.autopoly.district.field.rentable.RentableParam;
 import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StationField implements LockableField {
+public class StationField implements AutopolyField {
 
     private static final int INITIAL_PRICE = 150;
     private final String id;
@@ -82,31 +81,7 @@ public class StationField implements LockableField {
         return new StationField(id, name, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
     }
 
-    @Override
-    public boolean shouldLock() {
-        return !isLocked();
-    }
-
-    @Override
     public int getLockPrice() {
         return INITIAL_PRICE / 2;
-    }
-
-    @Override
-    public LockableField lock() throws IllegalStateException {
-        if (isLocked) {
-            throw new IllegalStateException();
-        } else {
-            return new StationField(id, name, true, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
-        }
-    }
-
-    @Override
-    public LockableField unlock() throws IllegalStateException {
-        if (isLocked) {
-            return new StationField(id, name, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
-        } else {
-            throw new IllegalStateException();
-        }
     }
 }

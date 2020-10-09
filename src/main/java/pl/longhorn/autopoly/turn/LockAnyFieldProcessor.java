@@ -2,11 +2,14 @@ package pl.longhorn.autopoly.turn;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
+import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.cqrs.LockFieldCommand;
-import pl.longhorn.autopoly.district.field.lockable.LockableField;
-import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
+import pl.longhorn.autopoly.district.field.cqrs.LockFieldPolicyQuery;
+import pl.longhorn.autopoly.player.PlayerOwnershipAccessor;
+import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,8 +17,9 @@ import java.util.Optional;
 public class LockAnyFieldProcessor {
 
     private final LockFieldCommand lockFieldCommand;
-    private final PlayerOwnershipQuery playerOwnershipQuery;
-    private final FieldQuery fieldQuery;
+    private final PlayerOwnershipAccessor playerOwnershipAccessor;
+    private final LockFieldPolicyQuery lockFieldPolicyQuery;
+    private final Randomizer randomizer;
 
     public boolean tryLockProperty(String playerId) {
         var propertyToLock = getPropertyToLock(playerId);
@@ -26,12 +30,14 @@ public class LockAnyFieldProcessor {
         return false;
     }
 
-    private Optional<LockableField> getPropertyToLock(String playerId) {
-        return playerOwnershipQuery.get(playerId).stream()
-                .map(fieldQuery::get)
-                .filter(field -> field instanceof LockableField)
-                .map(field -> (LockableField) field)
-                .filter(LockableField::shouldLock)
-                .findAny();
+    private Optional<AutopolyField> getPropertyToLock(String playerId) {
+        List<AutopolyField> fieldsToLock = new LinkedList<>();
+        for (var field : playerOwnershipAccessor.get(playerId)) {
+            var lockPolicy = lockFieldPolicyQuery.get(field);
+            if (lockPolicy.shouldLock(field)) {
+                fieldsToLock.add(field);
+            }
+        }
+        return randomizer.getRandom(fieldsToLock);
     }
 }

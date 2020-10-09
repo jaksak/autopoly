@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import pl.longhorn.autopoly.district.field.policy.FieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.distriction.DistrictionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 
 @Component
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ public class StreetFieldPolicy implements FieldPolicy<StreetField> {
 
     private final StreetDistrictionFieldPolicy districtionFieldPolicy = new StreetDistrictionFieldPolicy();
     private final StreetHouseFieldPolicy houseFieldPolicy = new StreetHouseFieldPolicy();
+    private final StreetLockFieldPolicy streetLockFieldPolicy = new StreetLockFieldPolicy();
 
     @Override
     public Class<StreetField> getFieldClass() {
@@ -26,5 +28,10 @@ public class StreetFieldPolicy implements FieldPolicy<StreetField> {
     @Override
     public HouseFieldPolicy<StreetField> getHouseFieldPolicy() {
         return houseFieldPolicy;
+    }
+
+    @Override
+    public LockFieldPolicy<StreetField> getLockFieldPolicy() {
+        return streetLockFieldPolicy;
     }
 }

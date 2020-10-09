@@ -9,23 +9,20 @@ import pl.longhorn.autopoly.board.event.BoardEvent;
 import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
 import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
 import pl.longhorn.autopoly.district.field.AutopolyField;
-import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
-import pl.longhorn.autopoly.district.field.cqrs.HouseFieldPolicyQuery;
-import pl.longhorn.autopoly.district.field.cqrs.HouseLvlCommand;
-import pl.longhorn.autopoly.district.field.cqrs.LockFieldCommand;
-import pl.longhorn.autopoly.district.field.lockable.LockableField;
+import pl.longhorn.autopoly.district.field.cqrs.*;
 import pl.longhorn.autopoly.district.player.PlayerDistrict;
 import pl.longhorn.autopoly.district.player.PlayerDistrictCommand;
 import pl.longhorn.autopoly.district.player.PlayerDistricts;
 import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
-import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
+import pl.longhorn.autopoly.player.PlayerOwnershipAccessor;
 import pl.longhorn.autopoly.turn.FinishTurnCommand;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,12 +38,13 @@ public class AutoActionCommand {
     private final DeleteBoardCommand deleteBoardCommand;
     private final BoardEventsQuery boardEventsQuery;
     private final LockFieldCommand lockFieldCommand;
-    private final PlayerOwnershipQuery playerOwnershipQuery;
     private final FieldQuery fieldQuery;
+    private final PlayerOwnershipAccessor playerOwnershipAccessor;
     private final PlayerDistrictCommand playerDistrictCommand;
     private final HouseLvlCommand houseLvlCommand;
     private final HouseFieldPolicyQuery houseFieldPolicyQuery;
     private final Randomizer randomizer;
+    private final LockFieldPolicyQuery lockFieldPolicyQuery;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -104,16 +102,19 @@ public class AutoActionCommand {
         var optionalPlayer = nextPlayerQuery.get();
         if (optionalPlayer.isPresent()) {
             var player = optionalPlayer.get();
-            var playerFieldIds = playerOwnershipQuery.get(player.getId());
-            playerFieldIds.stream()
-                    .map(fieldQuery::get)
-                    .filter(field -> field instanceof LockableField)
-                    .map(field -> (LockableField) field)
-                    .filter(LockableField::isLocked)
-                    .filter(field -> player.getMoneyAmount() > field.getLockPrice())
-                    .findAny()
-                    .ifPresent(field -> lockFieldCommand.unlock(field.getId(), player.getId()));
+            getFieldToUnlock(player).ifPresent(field -> lockFieldCommand.unlock(field.getId(), player.getId()));
         }
+    }
+
+    private Optional<AutopolyField> getFieldToUnlock(Player player) {
+        List<AutopolyField> fieldsToUnlock = new LinkedList<>();
+        for (var field : playerOwnershipAccessor.get(player.getId())) {
+            var lockPolicy = lockFieldPolicyQuery.get(field);
+            if (lockPolicy.shouldUnlock(field) && player.getMoneyAmount() > lockPolicy.getLockPrice(field)) {
+                fieldsToUnlock.add(field);
+            }
+        }
+        return randomizer.getRandom(fieldsToUnlock);
     }
 
     private void buildHouse() {

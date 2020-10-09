@@ -3,6 +3,7 @@ package pl.longhorn.autopoly.district.field.policy;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.policy.distriction.DistrictionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 
 public interface FieldPolicy<T extends AutopolyField> {
 
@@ -11,4 +12,6 @@ public interface FieldPolicy<T extends AutopolyField> {
     DistrictionFieldPolicy<T> getDistrictionFieldPolicy();
 
     HouseFieldPolicy<T> getHouseFieldPolicy();
+
+    LockFieldPolicy<T> getLockFieldPolicy();
 }

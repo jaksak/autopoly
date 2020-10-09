@@ -9,7 +9,6 @@ import pl.longhorn.autopoly.district.DistrictDetailsQuery;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
-import pl.longhorn.autopoly.district.field.lockable.LockableField;
 import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperationException;
 import pl.longhorn.autopoly.district.field.rentable.RentableActionResultCalculator;
 import pl.longhorn.autopoly.district.field.rentable.RentableParam;
@@ -19,7 +18,7 @@ import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 @Getter
 @EqualsAndHashCode
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class StreetField implements LockableField {
+public class StreetField implements AutopolyField {
     private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
     private static final int MAX_HOUSE_LVL = 5;
     private final String id;
@@ -120,34 +119,6 @@ public class StreetField implements LockableField {
             return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl - 1, isLocked, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
         } else {
             throw new IllegalHouseLvlOperationException();
-        }
-    }
-
-    @Override
-    public boolean shouldLock() {
-        return houseLvl == 0 && !isLocked;
-    }
-
-    @Override
-    public int getLockPrice() {
-        return priceToBuy / 2;
-    }
-
-    @Override
-    public LockableField lock() throws IllegalStateException {
-        if (isLocked) {
-            throw new IllegalStateException();
-        } else {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, true, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
-        }
-    }
-
-    @Override
-    public LockableField unlock() throws IllegalStateException {
-        if (isLocked) {
-            return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, houseLvl, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
-        } else {
-            throw new IllegalStateException();
         }
     }
 }

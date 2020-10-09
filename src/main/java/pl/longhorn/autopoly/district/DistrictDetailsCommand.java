@@ -41,7 +41,7 @@ public class DistrictDetailsCommand {
     public DistrictDetails prepareFields() {
         DistrictDetails districtDetails = new DistrictDetails(startFieldCommand.prepare());
 
-        SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
+        SequenceStreetFieldCommand sequenceStreetFieldCommand = new SequenceStreetFieldCommand(randomizer);
         EmptyFieldCommand emptyFieldCommand = new EmptyFieldCommand(idFactory);
 
         // 1

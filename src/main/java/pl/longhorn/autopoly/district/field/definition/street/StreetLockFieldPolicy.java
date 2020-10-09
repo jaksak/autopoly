@@ -29,8 +29,7 @@ public class StreetLockFieldPolicy implements LockFieldPolicy<StreetField> {
             throw new IllegalStateException();
         } else {
             return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
-                    field.getHouseLvl(), true, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
-                    field.getFieldOwnershipQuery());
+                    field.getHouseLvl(), true);
         }
     }
 
@@ -38,8 +37,7 @@ public class StreetLockFieldPolicy implements LockFieldPolicy<StreetField> {
     public StreetField unlock(StreetField field) throws IllegalStateException {
         if (isLocked(field)) {
             return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
-                    field.getHouseLvl(), false, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
-                    field.getFieldOwnershipQuery());
+                    field.getHouseLvl(), false);
         } else {
             throw new IllegalStateException();
         }

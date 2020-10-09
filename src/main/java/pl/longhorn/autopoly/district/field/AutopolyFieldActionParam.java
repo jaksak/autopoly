@@ -6,9 +6,11 @@ import pl.longhorn.autopoly.player.Player;
 
 @Builder
 @Getter
-public class AutopolyFieldActionParam {
+@Deprecated //TODO: remove it!
+public class AutopolyFieldActionParam<T extends AutopolyField> {
     private final String ownerId;
     private final Player player;
+    private final T field;
 
     public boolean fieldHasOwner() {
         return ownerId != null;

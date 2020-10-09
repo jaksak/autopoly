@@ -1,7 +1,5 @@
 package pl.longhorn.autopoly.district.field;
 
-import pl.longhorn.autopoly.action.result.BoardActionResult;
-
 import java.util.List;
 import java.util.Map;
 
@@ -36,11 +34,6 @@ public class AbcInfiniteIteratorFactory {
             @Override
             public AutopolyFieldDetailsView toView() {
                 return null;
-            }
-
-            @Override
-            public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
-                return BoardActionResult.builder().build();
             }
 
             @Override

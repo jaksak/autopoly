@@ -47,8 +47,7 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
     public StreetField increaseHouseLvl(StreetField field) throws IllegalHouseLvlOperationException {
         if (shouldIncreaseHouseLvl(field)) {
             return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
-                    field.getHouseLvl() + 1, field.isLocked(), field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
-                    field.getFieldOwnershipQuery());
+                    field.getHouseLvl() + 1, field.isLocked());
         } else {
             throw new IllegalHouseLvlOperationException();
         }
@@ -58,8 +57,7 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
     public StreetField decreaseHouseLvl(StreetField field) throws IllegalHouseLvlOperationException {
         if (shouldDecreaseHouseLvl(field)) {
             return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
-                    field.getHouseLvl() - 1, field.isLocked(), field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(),
-                    field.getFieldOwnershipQuery());
+                    field.getHouseLvl() - 1, field.isLocked());
         } else {
             throw new IllegalHouseLvlOperationException();
         }

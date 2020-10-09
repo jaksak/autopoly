@@ -3,9 +3,7 @@ package pl.longhorn.autopoly.district.field.definition.start;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import pl.longhorn.autopoly.action.result.BoardActionResult;
 import pl.longhorn.autopoly.district.field.AutopolyField;
-import pl.longhorn.autopoly.district.field.AutopolyFieldActionParam;
 import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
 
 @Getter
@@ -17,12 +15,6 @@ class StartField implements AutopolyField {
     @Override
     public AutopolyFieldDetailsView toView() {
         return new StartFieldView(id);
-    }
-
-    @Override
-    public BoardActionResult afterPlayerStay(AutopolyFieldActionParam actionParam) {
-        return BoardActionResult.builder()
-                .build();
     }
 
     @Override

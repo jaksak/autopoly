@@ -29,7 +29,7 @@ public class StationLockFieldPolicy implements LockFieldPolicy<StationField> {
         if (field.isLocked()) {
             throw new IllegalStateException();
         } else {
-            return new StationField(field.getId(), field.getName(), true, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(), field.getFieldOwnershipQuery());
+            return new StationField(field.getId(), field.getName(), true);
         }
     }
 
@@ -38,7 +38,7 @@ public class StationLockFieldPolicy implements LockFieldPolicy<StationField> {
         if (!field.isLocked()) {
             throw new IllegalStateException();
         } else {
-            return new StationField(field.getId(), field.getName(), false, field.getDistrictDetailsQuery(), field.getPlayerOwnershipQuery(), field.getFieldOwnershipQuery());
+            return new StationField(field.getId(), field.getName(), false);
         }
     }
 }

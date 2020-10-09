@@ -3,6 +3,7 @@ package pl.longhorn.autopoly.district.field.definition.start;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.longhorn.autopoly.district.field.policy.FieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.action.ActionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.distriction.DistrictionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.distriction.NoDistrictionFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
@@ -17,6 +18,7 @@ public class StartFieldPolicy implements FieldPolicy<StartField> {
     private final NoDistrictionFieldPolicy<StartField> noDistrictionFieldPolicy;
     private final NoHouseFieldPolicy<StartField> noHouseFieldPolicy;
     private final NoLockFieldPolicy<StartField> noLockFieldPolicy;
+    private final StartActionFieldPolicy startActionFieldPolicy = new StartActionFieldPolicy();
 
     @Override
     public Class<StartField> getFieldClass() {
@@ -36,5 +38,10 @@ public class StartFieldPolicy implements FieldPolicy<StartField> {
     @Override
     public LockFieldPolicy<StartField> getLockFieldPolicy() {
         return noLockFieldPolicy;
+    }
+
+    @Override
+    public ActionFieldPolicy<StartField> getActionFieldPolicy() {
+        return startActionFieldPolicy;
     }
 }

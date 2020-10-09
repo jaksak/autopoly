@@ -37,7 +37,7 @@ public class StreetField implements DistrictedField, HousableField, LockableFiel
 
     @Override
     public AutopolyFieldDetailsView toView() {
-        return new StreetFieldView(id, name, districtId, priceToBuy, getHousePrice(), getHotelPrice(), houseLvl, isLocked);
+        return new StreetFieldView(id, districtId, name, priceToBuy, getHousePrice(), getHotelPrice(), houseLvl, isLocked);
     }
 
     @Override

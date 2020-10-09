@@ -12,7 +12,7 @@ import pl.longhorn.autopoly.util.time.TimeProvider;
 public class CheckStateCommand {
 
     private static final int MAX_ACTION_AMOUNT = 2;
-    private final NextCheckStateTimer nextCheckStateTimer = new NextCheckStateTimer();
+    private final NextCheckStateTimer nextCheckStateTimer;
 
     private final AutoActionCommand autoActionCommand;
     private final CheckStateHistoryRepository checkStateHistoryRepository;

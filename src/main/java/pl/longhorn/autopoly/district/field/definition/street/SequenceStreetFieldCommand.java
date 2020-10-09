@@ -26,7 +26,7 @@ public class SequenceStreetFieldCommand {
         int currentPrice = getCurrentPrice(districtId);
         latestPrice = currentPrice;
         latestDistrict = districtId;
-        return new StreetField(id, name, districtId, currentPrice, currentPrice / 50 * 10 + 25, 0, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
+        return new StreetField(id, districtId, name, currentPrice, currentPrice / 50 * 10 + 25, 0, false, districtDetailsQuery, playerOwnershipQuery, fieldOwnershipQuery);
     }
 
     private int getCurrentPrice(String currentDistrictId) {

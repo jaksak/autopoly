@@ -19,8 +19,8 @@ public class StreetPriceService {
         return streetField.getPriceToBuy();
     }
 
-    public int getRentPrice(StreetField streetField) {
-        return streetField.getInitialRentPrice() + (streetField.getPriceToBuy() / 5 + 10 * streetField.getHouseLvl()) + addBonusForFullDistrict(streetField);
+    public int getRentPrice(StreetField field) {
+        return getCalculator(field).calculate(field.getHouseLvl(), hasFullDistrict(field));
     }
 
     public int getHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
@@ -31,12 +31,12 @@ public class StreetPriceService {
         return getHousePrice(field) + 50;
     }
 
-    private int addBonusForFullDistrict(StreetField streetField) {
-        if (hasFullDistrict(streetField)) {
-            return 50;
-        } else {
-            return 0;
-        }
+    public StreetRentPriceCalculator getCalculator(StreetField field) {
+        return new StreetRentPriceCalculator(field.getInitialRentPrice(), getHousePrice(field), getHotelPrice(field), getFullDistrictBonus());
+    }
+
+    public int getFullDistrictBonus() {
+        return 50;
     }
 
     private boolean hasFullDistrict(StreetField streetField) {

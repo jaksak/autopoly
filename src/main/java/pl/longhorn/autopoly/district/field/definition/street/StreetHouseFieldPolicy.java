@@ -9,9 +9,6 @@ import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperation
 @RequiredArgsConstructor
 public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
-    private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
-    private static final int MAX_HOUSE_LVL = 5;
-
     private final StreetPriceService streetPriceService;
 
     @Override
@@ -21,7 +18,7 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     @Override
     public boolean shouldIncreaseHouseLvl(StreetField field) {
-        return field.getHouseLvl() < MAX_HOUSE_LVL && !field.isLocked();
+        return field.getHouseLvl() < StreetConfig.MAX_HOUSE_LVL && !field.isLocked();
     }
 
     @Override
@@ -41,7 +38,7 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     @Override
     public int getCurrentHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return getHouseLvl(field) <= MAX_HOUSES_WITHOUT_HOTEL ? getHotelPrice(field) : getHousePrice(field);
+        return getHouseLvl(field) <= StreetConfig.MAX_HOUSES_WITHOUT_HOTEL ? getHotelPrice(field) : getHousePrice(field);
     }
 
     @Override

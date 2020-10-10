@@ -32,11 +32,6 @@ public class AbcInfiniteIteratorFactory {
             }
 
             @Override
-            public AutopolyFieldDetailsView toView() {
-                return null;
-            }
-
-            @Override
             public AutopolyField reset() {
                 return null;
             }

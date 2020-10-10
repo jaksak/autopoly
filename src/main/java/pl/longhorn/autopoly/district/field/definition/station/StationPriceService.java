@@ -15,12 +15,16 @@ public class StationPriceService {
     private final PlayerOwnershipQuery playerOwnershipQuery;
 
     public int getBuyingPrice() {
-        return 150;
+        return StationConfig.INITIAL_BUYING_PRICE;
     }
 
     public int getRentPrice(StationField field) {
         int playerStationAmount = fieldOwnershipQuery.getOwner(field.getId()).map(this::getPlayerStationAmount).orElse(1);
-        return field.getRentPrice(playerStationAmount);
+        return getRentPrice(playerStationAmount);
+    }
+
+    public int getRentPrice(int ownerOtherStationAmount) {
+        return StationConfig.INITIAL_BUYING_PRICE + ((ownerOtherStationAmount - 1) * StationConfig.BONUS_FOR_OTHER_STATION);
     }
 
     private int getPlayerStationAmount(String playerId) {

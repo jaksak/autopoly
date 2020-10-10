@@ -19,6 +19,7 @@ public class LockFieldCommand {
     private final BoardQuery boardQuery;
     private final BoardLogCommand boardLogCommand;
     private final FieldPolicyFactory fieldPolicyFactory;
+    private final FieldViewQuery fieldViewQuery;
 
     public void lock(String fieldId, String ownerId) {
         var field = fieldQuery.get(fieldId);
@@ -27,7 +28,7 @@ public class LockFieldCommand {
             var lockedField = lockPolicy.lock(field);
             fieldService.update(lockedField);
             updateMoneyCommand.updateMoney(ownerId, lockPolicy.getLockPrice(field));
-            boardLogCommand.add(new FieldUpdateLogContent(lockedField.toView()), boardQuery.get().getId());
+            boardLogCommand.add(new FieldUpdateLogContent(fieldViewQuery.get(lockedField)), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }
@@ -40,7 +41,7 @@ public class LockFieldCommand {
             var unlockedField = lockPolicy.unlock(field);
             fieldService.update(unlockedField);
             updateMoneyCommand.updateMoney(ownerId, -lockPolicy.getLockPrice(field));
-            boardLogCommand.add(new FieldUpdateLogContent(unlockedField.toView()), boardQuery.get().getId());
+            boardLogCommand.add(new FieldUpdateLogContent(fieldViewQuery.get(unlockedField)), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }

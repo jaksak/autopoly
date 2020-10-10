@@ -10,6 +10,7 @@ import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.NoHouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.lock.NoLockFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.view.ViewFieldPolicy;
 
 @Component
 @RequiredArgsConstructor
@@ -43,5 +44,10 @@ public class EmptyFieldPolicy implements FieldPolicy<EmptyField> {
     @Override
     public ActionFieldPolicy<EmptyField> getActionFieldPolicy() {
         return emptyActionFieldPolicy;
+    }
+
+    @Override
+    public ViewFieldPolicy<EmptyField> getViewFieldPolicy() {
+        return field -> new EmptyFieldView(field.getId());
     }
 }

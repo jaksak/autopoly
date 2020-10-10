@@ -19,6 +19,7 @@ public class HouseLvlCommand {
     private final BoardQuery boardQuery;
     private final BoardLogCommand boardLogCommand;
     private final FieldPolicyFactory fieldPolicyFactory;
+    private final FieldViewQuery fieldViewQuery;
 
     public void increaseLvl(String fieldId, String founderId) {
         var field = fieldQuery.get(fieldId);
@@ -28,7 +29,7 @@ public class HouseLvlCommand {
             var changedField = housePolicy.increaseHouseLvl(field);
             fieldService.update(changedField);
             updateMoneyCommand.updateMoney(founderId, -price);
-            boardLogCommand.add(new FieldUpdateLogContent(changedField.toView()), boardQuery.get().getId());
+            boardLogCommand.add(new FieldUpdateLogContent(fieldViewQuery.get(changedField)), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }
@@ -41,7 +42,7 @@ public class HouseLvlCommand {
             var afterUpdateField = housePolicy.decreaseHouseLvl(field);
             fieldService.update(afterUpdateField);
             updateMoneyCommand.updateMoney(ownerId, housePolicy.getCurrentHousePrice(afterUpdateField));
-            boardLogCommand.add(new FieldUpdateLogContent(afterUpdateField.toView()), boardQuery.get().getId());
+            boardLogCommand.add(new FieldUpdateLogContent(fieldViewQuery.get(field)), boardQuery.get().getId());
         } else {
             throw new IllegalArgumentException();
         }

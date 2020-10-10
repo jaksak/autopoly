@@ -9,7 +9,8 @@ import pl.longhorn.autopoly.board.BoardAccessor;
 import pl.longhorn.autopoly.board.api.BoardInitialConfigView;
 import pl.longhorn.autopoly.board.api.BoardStateView;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
-import pl.longhorn.autopoly.district.field.AutopolyField;
+import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
+import pl.longhorn.autopoly.district.field.cqrs.FieldViewQuery;
 import pl.longhorn.autopoly.log.BoardLog;
 import pl.longhorn.autopoly.log.BoardLogAfterIdQuery;
 import pl.longhorn.autopoly.log.BoardLogQuery;
@@ -20,6 +21,7 @@ import pl.longhorn.autopoly.player.PlayersQuery;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 import pl.longhorn.autopoly.state.CheckStateCommand;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +37,7 @@ public class BoardController {
     private final BoardLogAfterIdQuery boardLogAfterIdQuery;
     private final NextPlayerQuery nextPlayerQuery;
     private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final FieldViewQuery fieldViewQuery;
 
     @GetMapping("state")
     public BoardStateView getBoardState(@RequestParam String boardId, @RequestParam(required = false) String logsAfter) {
@@ -51,10 +54,16 @@ public class BoardController {
         var board = boardAccessor.getBoard();
         return BoardInitialConfigView.builder()
                 .boardId(board.getId())
-                .fields(districtDetailsQuery.get().getFieldByBoardOrder().stream().map(AutopolyField::toView).collect(Collectors.toList()))
+                .fields(getFieldsView())
                 .players(playersQuery.get().stream().map(this::toView).collect(Collectors.toList()))
                 .currentPlayerId(nextPlayerQuery.get().map(Player::getId).orElse(null))
                 .build();
+    }
+
+    private List<AutopolyFieldDetailsView> getFieldsView() {
+        return districtDetailsQuery.get().getFieldByBoardOrder().stream()
+                .map(fieldViewQuery::get)
+                .collect(Collectors.toList());
     }
 
     private PlayerView toView(Player player) {

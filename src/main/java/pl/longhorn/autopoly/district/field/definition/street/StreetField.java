@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import pl.longhorn.autopoly.district.field.AutopolyField;
-import pl.longhorn.autopoly.district.field.AutopolyFieldDetailsView;
 
 @Getter(AccessLevel.PACKAGE)
 @EqualsAndHashCode
@@ -23,12 +22,6 @@ public class StreetField implements AutopolyField {
     private final int houseLvl;
     @Getter(AccessLevel.PACKAGE)
     private final boolean isLocked;
-
-    @Override
-    public AutopolyFieldDetailsView toView() {
-        // TODO: to other policy...
-        return new StreetFieldView(id, districtId, name, priceToBuy, 21, 37, houseLvl, isLocked);
-    }
 
     @Override
     public AutopolyField reset() {

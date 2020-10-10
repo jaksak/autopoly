@@ -15,11 +15,12 @@ public class ResetFieldCommand {
     private final FieldQuery fieldQuery;
     private final BoardQuery boardQuery;
     private final BoardLogCommand boardLogCommand;
+    private final FieldViewQuery fieldViewQuery;
 
     public void reset(String fieldId) {
         var field = fieldQuery.get(fieldId);
         var fieldAfterReset = field.reset();
         fieldService.update(fieldAfterReset);
-        boardLogCommand.add(new FieldUpdateLogContent(fieldAfterReset.toView()), boardQuery.get().getId());
+        boardLogCommand.add(new FieldUpdateLogContent(fieldViewQuery.get(fieldAfterReset)), boardQuery.get().getId());
     }
 }

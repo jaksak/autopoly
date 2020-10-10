@@ -10,6 +10,7 @@ import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.NoHouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.lock.NoLockFieldPolicy;
+import pl.longhorn.autopoly.district.field.policy.view.ViewFieldPolicy;
 
 @Component
 @RequiredArgsConstructor
@@ -43,5 +44,10 @@ public class StartFieldPolicy implements FieldPolicy<StartField> {
     @Override
     public ActionFieldPolicy<StartField> getActionFieldPolicy() {
         return startActionFieldPolicy;
+    }
+
+    @Override
+    public ViewFieldPolicy<StartField> getViewFieldPolicy() {
+        return field -> new StartFieldView(field.getId());
     }
 }

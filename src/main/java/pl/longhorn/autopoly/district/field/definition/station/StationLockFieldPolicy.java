@@ -1,7 +1,11 @@
 package pl.longhorn.autopoly.district.field.definition.station;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 
+@Service
+@RequiredArgsConstructor
 public class StationLockFieldPolicy implements LockFieldPolicy<StationField> {
     @Override
     public boolean shouldLock(StationField field) {

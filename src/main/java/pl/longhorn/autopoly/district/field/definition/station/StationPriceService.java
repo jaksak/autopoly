@@ -23,6 +23,10 @@ public class StationPriceService {
         return getRentPrice(playerStationAmount);
     }
 
+    public int getBaseRentPrice() {
+        return StationConfig.INITIAL_BUYING_PRICE;
+    }
+
     public int getRentPrice(int ownerOtherStationAmount) {
         return StationConfig.INITIAL_BUYING_PRICE + ((ownerOtherStationAmount - 1) * StationConfig.BONUS_FOR_OTHER_STATION);
     }
@@ -32,5 +36,9 @@ public class StationPriceService {
         return (int) districtDetailsQuery.get().getStationFieldIds().stream()
                 .filter(playerFieldIds::contains)
                 .count();
+    }
+
+    public int getDistrictBonus() {
+        return StationConfig.BONUS_FOR_OTHER_STATION;
     }
 }

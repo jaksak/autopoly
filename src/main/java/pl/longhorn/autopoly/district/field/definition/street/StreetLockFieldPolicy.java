@@ -32,7 +32,7 @@ public class StreetLockFieldPolicy implements LockFieldPolicy<StreetField> {
         if (isLocked(field)) {
             throw new IllegalStateException();
         } else {
-            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
+            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getBaseRentPrice(),
                     field.getHouseLvl(), true);
         }
     }
@@ -40,7 +40,7 @@ public class StreetLockFieldPolicy implements LockFieldPolicy<StreetField> {
     @Override
     public StreetField unlock(StreetField field) throws IllegalStateException {
         if (isLocked(field)) {
-            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getInitialRentPrice(),
+            return new StreetField(field.getId(), field.getDistrictId(), field.getName(), field.getPriceToBuy(), field.getBaseRentPrice(),
                     field.getHouseLvl(), false);
         } else {
             throw new IllegalStateException();

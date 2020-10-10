@@ -13,6 +13,7 @@ class StreetFieldView implements AutopolyFieldDetailsView {
     private final String districtId;
     private final String name;
     private final int price;
+    private final int baseRentPrice;
     private final int currentRentPrice;
     private final int districtBonus;
     private final int housePrice;

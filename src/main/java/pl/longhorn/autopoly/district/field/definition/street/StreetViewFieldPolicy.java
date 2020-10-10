@@ -20,6 +20,7 @@ public class StreetViewFieldPolicy implements ViewFieldPolicy<StreetField> {
                 .districtId(field.getDistrictId())
                 .name(field.getName())
                 .price(streetPriceService.getBuyingPrice(field))
+                .baseRentPrice(streetPriceService.getBaseRentPrice(field))
                 .currentRentPrice(streetPriceService.getRentPrice(field))
                 .districtBonus(streetPriceService.getFullDistrictBonus())
                 .housePrice(streetHouseFieldPolicy.getHousePrice(field))

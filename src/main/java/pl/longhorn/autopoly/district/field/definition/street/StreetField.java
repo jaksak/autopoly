@@ -17,7 +17,7 @@ public class StreetField implements AutopolyField {
     @Getter
     private final String name;
     private final int priceToBuy;
-    private final int initialRentPrice;
+    private final int baseRentPrice;
     @Getter(AccessLevel.PACKAGE)
     private final int houseLvl;
     @Getter(AccessLevel.PACKAGE)
@@ -25,6 +25,6 @@ public class StreetField implements AutopolyField {
 
     @Override
     public AutopolyField reset() {
-        return new StreetField(id, districtId, name, priceToBuy, initialRentPrice, 0, false);
+        return new StreetField(id, districtId, name, priceToBuy, baseRentPrice, 0, false);
     }
 }

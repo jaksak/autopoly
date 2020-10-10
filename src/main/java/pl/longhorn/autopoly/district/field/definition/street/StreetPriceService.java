@@ -31,8 +31,12 @@ public class StreetPriceService {
         return getHousePrice(field) + 50;
     }
 
+    public int getBaseRentPrice(StreetField field) {
+        return field.getBaseRentPrice();
+    }
+
     public StreetRentPriceCalculator getCalculator(StreetField field) {
-        return new StreetRentPriceCalculator(field.getInitialRentPrice(), getHousePrice(field), getHotelPrice(field), getFullDistrictBonus());
+        return new StreetRentPriceCalculator(field.getBaseRentPrice(), getHousePrice(field), getHotelPrice(field), getFullDistrictBonus());
     }
 
     public int getFullDistrictBonus() {

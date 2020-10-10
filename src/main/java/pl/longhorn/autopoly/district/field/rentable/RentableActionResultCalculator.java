@@ -9,9 +9,9 @@ import pl.longhorn.autopoly.player.money.MoneyChange;
 public class RentableActionResultCalculator {
 
     public BoardActionResult calculate(RentableParam param) {
-        if (!param.isFieldHasOwner()) {
+        if (!fieldHasOwner(param)) {
             return buyIfHaveMoney(param);
-        } else if (!param.isCalledByOwner() && !param.isLocked()) {
+        } else if (!isCalledByOwner(param) && !param.isLocked()) {
             return rentField(param);
         } else {
             return BoardActionResult.builder()
@@ -38,5 +38,13 @@ public class RentableActionResultCalculator {
             return BoardActionResult.builder()
                     .build();
         }
+    }
+
+    private boolean fieldHasOwner(RentableParam param) {
+        return param.getOwnerId() != null;
+    }
+
+    private boolean isCalledByOwner(RentableParam param) {
+        return param.getPlayer().getId().equals(param.getOwnerId());
     }
 }

@@ -1,10 +1,12 @@
 package pl.longhorn.autopoly.trade;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public class TradeProposition {
-    private String id;
-    private Offer offer1;
-    private Offer offer2;
+    private final String id;
+    private final Offer offer1;
+    private final Offer offer2;
 }

@@ -6,8 +6,10 @@ import pl.longhorn.autopoly.action.result.ActionResultProcessor;
 import pl.longhorn.autopoly.board.BoardAccessor;
 import pl.longhorn.autopoly.board.cqrs.DeleteBoardCommand;
 import pl.longhorn.autopoly.board.event.BoardEvent;
+import pl.longhorn.autopoly.board.event.cqrs.AddBoardEventsCommand;
 import pl.longhorn.autopoly.board.event.cqrs.BoardEventsQuery;
 import pl.longhorn.autopoly.board.event.cqrs.DeleteBoardEventCommand;
+import pl.longhorn.autopoly.board.event.definition.trade.TradeBoardEventFactory;
 import pl.longhorn.autopoly.district.field.AutopolyField;
 import pl.longhorn.autopoly.district.field.cqrs.*;
 import pl.longhorn.autopoly.district.player.PlayerDistrict;
@@ -17,7 +19,13 @@ import pl.longhorn.autopoly.player.NextPlayerQuery;
 import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.player.PlayerInBoardQuery;
 import pl.longhorn.autopoly.player.PlayerOwnershipAccessor;
+import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
+import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
+import pl.longhorn.autopoly.trade.Offer;
+import pl.longhorn.autopoly.trade.TradeProposition;
+import pl.longhorn.autopoly.trade.cqrs.TradePropositionCommand;
 import pl.longhorn.autopoly.turn.FinishTurnCommand;
+import pl.longhorn.autopoly.util.id.IdFactory;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
 import java.util.LinkedList;
@@ -45,6 +53,12 @@ public class AutoActionCommand {
     private final HouseFieldPolicyQuery houseFieldPolicyQuery;
     private final Randomizer randomizer;
     private final LockFieldPolicyQuery lockFieldPolicyQuery;
+    private final FieldOwnershipQuery fieldOwnershipQuery;
+    private final PlayerOwnershipQuery playerOwnershipQuery;
+    private final IdFactory idFactory;
+    private final TradePropositionCommand tradePropositionCommand;
+    private final AddBoardEventsCommand addBoardEventsCommand;
+    private final TradeBoardEventFactory tradeBoardEventFactory;
 
     public boolean doAutoAction() {
         boolean shouldContinue = performPossibleEvents();
@@ -55,6 +69,7 @@ public class AutoActionCommand {
             }
             unlockAnyField();
             buildHouse();
+            createTradeProposition();
             finishTurnCommand.finish();
         }
         return shouldContinue;
@@ -139,5 +154,45 @@ public class AutoActionCommand {
             }
         }
         return availableFieldToBuildHouse;
+    }
+
+    private void createTradeProposition() {
+        var optionalPlayer = nextPlayerQuery.get();
+        if (optionalPlayer.isPresent()) {
+            var player = optionalPlayer.get();
+            for (PlayerDistrict playerDistrict : playerDistrictCommand.prepare(player.getId()).getOneLacking()) {
+                var lackingFieldId = playerDistrict.getLackingFieldIds().get(0);
+                var owner = fieldOwnershipQuery.getOwner(lackingFieldId);
+                if (owner.isPresent()) {
+                    var fieldIdToSell = getLackingCard(owner.get(), player);
+                    if (fieldIdToSell != null) {
+                        var fieldToSell = fieldQuery.get(fieldIdToSell);
+                        var fieldToBuy = fieldQuery.get(lackingFieldId);
+                        TradeProposition tradeProposition = new TradeProposition(
+                                idFactory.generate(),
+                                prepareOffer(fieldToSell, player.getId()),
+                                prepareOffer(fieldToBuy, owner.get()));
+                        tradePropositionCommand.save(tradeProposition);
+                        addBoardEventsCommand.add(List.of(tradeBoardEventFactory.create(owner.get())));
+                    }
+                }
+            }
+        }
+    }
+
+    private Offer prepareOffer(AutopolyField fieldToSell, String playerId) {
+        return new Offer(playerId, List.of(fieldToSell.getId()), 0);
+    }
+
+    private String getLackingCard(String player, Player founder) {
+        var founderCards = playerOwnershipQuery.get(founder.getId());
+        var playerDistricts = playerDistrictCommand.prepare(player);
+        for (PlayerDistrict playerDistrict : playerDistricts.getOneLacking()) {
+            var lackingFieldId = playerDistrict.getLackingFieldIds().get(0);
+            if (founderCards.contains(lackingFieldId)) {
+                return lackingFieldId;
+            }
+        }
+        return null;
     }
 }

@@ -13,7 +13,7 @@ import pl.longhorn.autopoly.district.field.policy.lock.LockFieldPolicy;
 public class StreetFieldPolicy implements FieldPolicy<StreetField> {
 
     private final StreetDistrictionFieldPolicy districtionFieldPolicy = new StreetDistrictionFieldPolicy();
-    private final StreetHouseFieldPolicy houseFieldPolicy = new StreetHouseFieldPolicy();
+    private final StreetHouseFieldPolicy houseFieldPolicy;
     private final StreetLockFieldPolicy streetLockFieldPolicy = new StreetLockFieldPolicy();
     private final StreetActionFieldPolicy streetActionFieldPolicy;
 

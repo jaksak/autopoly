@@ -3,6 +3,7 @@ package pl.longhorn.autopoly.district.field.definition.street;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.longhorn.autopoly.district.DistrictDetailsQuery;
+import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperationException;
 import pl.longhorn.autopoly.player.ownership.cqrs.FieldOwnershipQuery;
 import pl.longhorn.autopoly.player.ownership.cqrs.PlayerOwnershipQuery;
 
@@ -20,6 +21,14 @@ public class StreetPriceService {
 
     public int getRentPrice(StreetField streetField) {
         return streetField.getInitialRentPrice() + (streetField.getPriceToBuy() / 5 + 10 * streetField.getHouseLvl()) + addBonusForFullDistrict(streetField);
+    }
+
+    public int getHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
+        return field.getPriceToBuy() / 100 + 100;
+    }
+
+    public int getHotelPrice(StreetField field) throws IllegalHouseLvlOperationException {
+        return getHousePrice(field) + 50;
     }
 
     private int addBonusForFullDistrict(StreetField streetField) {

@@ -1,12 +1,18 @@
 package pl.longhorn.autopoly.district.field.definition.street;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import pl.longhorn.autopoly.district.field.policy.house.HouseFieldPolicy;
 import pl.longhorn.autopoly.district.field.policy.house.IllegalHouseLvlOperationException;
 
+@Component
+@RequiredArgsConstructor
 public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     private static final int MAX_HOUSES_WITHOUT_HOTEL = 4;
     private static final int MAX_HOUSE_LVL = 5;
+
+    private final StreetPriceService streetPriceService;
 
     @Override
     public boolean shouldHasHouse() {
@@ -25,12 +31,12 @@ public class StreetHouseFieldPolicy implements HouseFieldPolicy<StreetField> {
 
     @Override
     public int getHousePrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return field.getPriceToBuy() / 100 + 100;
+        return streetPriceService.getHousePrice(field);
     }
 
     @Override
     public int getHotelPrice(StreetField field) throws IllegalHouseLvlOperationException {
-        return getHousePrice(field) + 50;
+        return streetPriceService.getHotelPrice(field);
     }
 
     @Override

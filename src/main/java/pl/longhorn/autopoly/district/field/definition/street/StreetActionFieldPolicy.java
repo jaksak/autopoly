@@ -22,7 +22,7 @@ public class StreetActionFieldPolicy implements ActionFieldPolicy<StreetField> {
                 .fieldId(field.getId())
                 .ownerId(fieldOwnershipQuery.getOwner(field.getId()).orElse(null))
                 .player(player)
-                .buyingPrice(field.getPriceToBuy())
+                .buyingPrice(streetPriceService.getBuyingPrice(field))
                 .rentPrice(streetPriceService.getRentPrice(field))
                 .isLocked(field.isLocked())
                 .build();

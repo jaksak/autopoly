@@ -49,18 +49,18 @@ public class TradeBoardEvent implements BoardEvent {
         for (String fieldId : offer.getFields()) {
             var field = fieldQuery.get(fieldId);
             var districtionPolicy = districtionFieldPolicyQuery.get(field);
-            if (districtionPolicy.hasAssignedDistrict() && createDistrict(field, districtionPolicy.getDistrictId(field), playerDistricts)) {
+            if (districtionPolicy.hasAssignedDistrict() && isCreateDistrict(field, districtionPolicy.getDistrictId(field), playerDistricts)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean createDistrict(AutopolyField field, String districtId, PlayerDistricts playerDistricts) {
+    private boolean isCreateDistrict(AutopolyField field, String districtId, PlayerDistricts playerDistricts) {
         var optionalPlayerDistrict = playerDistricts.get(districtId);
         if (optionalPlayerDistrict.isPresent()) {
             var lackingFields = optionalPlayerDistrict.get().getLackingFieldIds();
-            return lackingFields.size() == 1 && lackingFields.contains(districtId);
+            return lackingFields.size() == 1 && lackingFields.contains(field.getId());
         } else {
             return false;
         }

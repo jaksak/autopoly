@@ -11,7 +11,7 @@ import pl.longhorn.autopoly.util.time.TimeProvider;
 @RequiredArgsConstructor
 public class CheckStateCommand {
 
-    private static final int MAX_ACTION_AMOUNT = 200;
+    private static final int MAX_ACTION_AMOUNT = 2;
     private final NextCheckStateTimer nextCheckStateTimer;
 
     private final AutoActionCommand autoActionCommand;

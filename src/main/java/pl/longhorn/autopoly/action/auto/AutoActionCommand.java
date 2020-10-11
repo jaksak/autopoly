@@ -66,11 +66,11 @@ public class AutoActionCommand {
             shouldContinue = performSingleAction();
             if (shouldContinue) {
                 shouldContinue = performPossibleEvents();
+                unlockAnyField();
+                buildHouse();
+                createTradeProposition();
+                finishTurnCommand.finish();
             }
-            unlockAnyField();
-            buildHouse();
-            createTradeProposition();
-            finishTurnCommand.finish();
         }
         return shouldContinue;
     }
@@ -173,7 +173,7 @@ public class AutoActionCommand {
                                 prepareOffer(fieldToSell, player.getId()),
                                 prepareOffer(fieldToBuy, owner.get()));
                         tradePropositionCommand.save(tradeProposition);
-                        addBoardEventsCommand.add(List.of(tradeBoardEventFactory.create(owner.get())));
+                        addBoardEventsCommand.add(List.of(tradeBoardEventFactory.create(owner.get(), tradeProposition)));
                     }
                 }
             }

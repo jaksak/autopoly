@@ -14,7 +14,6 @@ import pl.longhorn.autopoly.player.Player;
 import pl.longhorn.autopoly.trade.TradeProposition;
 import pl.longhorn.autopoly.trade.cqrs.ClearTradePropositionCommand;
 import pl.longhorn.autopoly.trade.cqrs.RunTradePropositionCommand;
-import pl.longhorn.autopoly.trade.cqrs.TradePropositionQuery;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
 @Getter
@@ -22,8 +21,8 @@ import pl.longhorn.autopoly.util.randomizer.Randomizer;
 public class TradeBoardEvent implements BoardEvent {
     private final String id;
     private final String playerId;
+    private final TradeProposition tradeProposition;
 
-    private final TradePropositionQuery tradePropositionQuery;
     private final Randomizer randomizer;
     private final PlayerDistrictCommand playerDistrictCommand;
     private final FieldQuery fieldQuery;
@@ -33,8 +32,7 @@ public class TradeBoardEvent implements BoardEvent {
 
     @Override
     public BoardActionResult react(Board board, Player player) {
-        var proposition = tradePropositionQuery.get();
-        if (shouldAccept(proposition, player)) {
+        if (shouldAccept(player)) {
             runTradePropositionCommand.run();
         } else {
             clearTradePropositionCommand.run();
@@ -43,9 +41,9 @@ public class TradeBoardEvent implements BoardEvent {
                 .build();
     }
 
-    private boolean shouldAccept(TradeProposition proposition, Player player) {
+    private boolean shouldAccept(Player player) {
         var playerDistricts = playerDistrictCommand.prepare(player.getId());
-        var offer = proposition.getOffer1();
+        var offer = tradeProposition.getOffer1();
         for (String fieldId : offer.getFields()) {
             var field = fieldQuery.get(fieldId);
             var districtionPolicy = districtionFieldPolicyQuery.get(field);

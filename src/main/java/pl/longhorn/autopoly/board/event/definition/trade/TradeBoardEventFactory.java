@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import pl.longhorn.autopoly.district.field.cqrs.DistrictionFieldPolicyQuery;
 import pl.longhorn.autopoly.district.field.cqrs.FieldQuery;
 import pl.longhorn.autopoly.district.player.PlayerDistrictCommand;
+import pl.longhorn.autopoly.trade.TradeProposition;
 import pl.longhorn.autopoly.trade.cqrs.ClearTradePropositionCommand;
 import pl.longhorn.autopoly.trade.cqrs.RunTradePropositionCommand;
-import pl.longhorn.autopoly.trade.cqrs.TradePropositionQuery;
 import pl.longhorn.autopoly.util.id.IdFactory;
 import pl.longhorn.autopoly.util.randomizer.Randomizer;
 
@@ -16,7 +16,6 @@ import pl.longhorn.autopoly.util.randomizer.Randomizer;
 public class TradeBoardEventFactory {
 
     private final IdFactory idFactory;
-    private final TradePropositionQuery tradePropositionQuery;
     private final Randomizer randomizer;
     private final PlayerDistrictCommand playerDistrictCommand;
     private final FieldQuery fieldQuery;
@@ -24,8 +23,8 @@ public class TradeBoardEventFactory {
     private final RunTradePropositionCommand runTradePropositionCommand;
     private final ClearTradePropositionCommand clearTradePropositionCommand;
 
-    public TradeBoardEvent create(String playerId) {
-        return new TradeBoardEvent(idFactory.generate(), playerId, tradePropositionQuery, randomizer, playerDistrictCommand, fieldQuery,
+    public TradeBoardEvent create(String playerId, TradeProposition tradeProposition) {
+        return new TradeBoardEvent(idFactory.generate(), playerId, tradeProposition, randomizer, playerDistrictCommand, fieldQuery,
                 districtionFieldPolicyQuery, runTradePropositionCommand, clearTradePropositionCommand);
     }
 }

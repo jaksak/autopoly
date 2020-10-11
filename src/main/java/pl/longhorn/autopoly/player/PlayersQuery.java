@@ -12,6 +12,11 @@ public class PlayersQuery {
     private final PlayerRepository playerRepository;
 
     public List<Player> get() {
-        return playerRepository.get().getPlayers();
+        var playerInBoard = playerRepository.get();
+        if (playerInBoard == null) {
+            return List.of();
+        } else {
+            return playerInBoard.getPlayers();
+        }
     }
 }

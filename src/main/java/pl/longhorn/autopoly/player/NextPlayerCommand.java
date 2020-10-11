@@ -17,9 +17,11 @@ public class NextPlayerCommand {
 
     public void moveActionToNext() {
         var playerInBoard = repository.get();
-        var nextPlayerId = new NextPlayerCalculator().getNext(playerInBoard.getNextPlayerId(), playerInBoard.getPlayers());
-        playerInBoard.setNextPlayerId(nextPlayerId);
-        repository.save(playerInBoard);
-        boardLogCommand.add(new NextTurnLogContent(nextPlayerId), boardQuery.get().getId());
+        if (playerInBoard != null) {
+            var nextPlayerId = new NextPlayerCalculator().getNext(playerInBoard.getNextPlayerId(), playerInBoard.getPlayers());
+            playerInBoard.setNextPlayerId(nextPlayerId);
+            repository.save(playerInBoard);
+            boardLogCommand.add(new NextTurnLogContent(nextPlayerId), boardQuery.get().getId());
+        }
     }
 }
